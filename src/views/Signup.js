@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import Page from '../components/Page';
 
@@ -33,7 +35,7 @@ const Title = styled.div`
   margin-bottom: 24px;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   width: 375px;
   display: flex;
   flex-direction: column;
@@ -100,40 +102,76 @@ const LinkText = styled(Link)`
   margin-bottom: 50px;
 `;
 
-export default () => (
-  <Page>
-    <ErrorToast />
-    <Logo>Grupa</Logo>
-    <Title>Sign up</Title>
+const SignupPage = () => {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email address').required('Required'),
+      password: Yup.string().required('Required'),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null])
+        .required('Password confirm is required'),
+    }),
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
-    <Form action="">
-      <Field>
-        <label htmlFor="email">Email</label>
-        <input type="email" name="email" placeholder="example@site.com" />
-      </Field>
+  return (
+    <Page>
+      <ErrorToast />
+      <Logo>Grupa</Logo>
+      <Title>Sign up</Title>
 
-      <Field>
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-        />
-      </Field>
+      <Form onSubmit={formik.handleSubmit}>
+        <Field>
+          <label htmlFor="email">Email</label>
 
-      <Field>
-        <label htmlFor="confirmPassword">Confirm password</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm password"
-        />
-      </Field>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            placeholder="example@site.com"
+          />
+        </Field>
 
-      <Button>Create account</Button>
-    </Form>
+        <Field>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            placeholder="Enter your password"
+          />
+        </Field>
 
-    <InfoText>Already have an account?</InfoText>
-    <LinkText to="/login">Login</LinkText>
-  </Page>
-);
+        <Field>
+          <label htmlFor="confirmPassword">Confirm password</label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            onChange={formik.handleChange}
+            value={formik.values.confirmPassword}
+            placeholder="Confirm password"
+          />
+        </Field>
+
+        <Button type="submit">Create account</Button>
+      </Form>
+
+      <InfoText>Already have an account?</InfoText>
+      <LinkText to="/login">Login</LinkText>
+    </Page>
+  );
+};
+
+export default SignupPage;
