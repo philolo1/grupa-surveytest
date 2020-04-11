@@ -16,8 +16,6 @@ const ErrorToast = styled.div`
 `;
 
 const Logo = styled.div`
-  width: 138px;
-  height: 54px;
   color: rgb(73, 73, 73);
   font-size: 46px;
   font-weight: 900;
@@ -26,8 +24,6 @@ const Logo = styled.div`
 `;
 
 const Title = styled.div`
-  width: 95px;
-  height: 30px;
   color: rgb(64, 64, 64);
   font-size: 26px;
   font-weight: 800;
@@ -36,7 +32,7 @@ const Title = styled.div`
 `;
 
 const Form = styled.form`
-  width: 375px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,8 +45,6 @@ const Field = styled.div`
   margin-bottom: 30px;
 
   label {
-    width: 56px;
-    height: 24px;
     color: rgb(64, 64, 64);
     font-size: 20px;
     font-weight: bold;
@@ -82,8 +76,6 @@ const Button = styled.button`
 `;
 
 const InfoText = styled.div`
-  width: 100%;
-  height: 19px;
   color: rgb(64, 64, 64);
   font-size: 16px;
   font-weight: normal;
@@ -92,8 +84,6 @@ const InfoText = styled.div`
 `;
 
 const LinkText = styled(Link)`
-  width: 44px;
-  height: 19px;
   color: rgb(34, 179, 148);
   font-size: 16px;
   font-weight: bold;
@@ -102,14 +92,16 @@ const LinkText = styled(Link)`
   margin-bottom: 50px;
 `;
 
-const SignupPage = () => {
+const SignupPage = ({ history }) => {
   const formik = useFormik({
     initialValues: {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
     },
     validationSchema: Yup.object({
+      name: Yup.string().required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
       password: Yup.string().required('Required'),
       confirmPassword: Yup.string()
@@ -117,9 +109,23 @@ const SignupPage = () => {
         .required('Password confirm is required'),
     }),
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      history.replace('/list');
     },
   });
+
+  const handleClick = async () => {
+    const values = formik.values;
+    const schema = Yup.object({
+      name: Yup.string().required('Required'),
+      email: Yup.string().email('Invalid email address').required('Required'),
+      password: Yup.string().required('Required'),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null])
+        .required('Password confirm is required'),
+    });
+    const valid = await schema.isValid(values);
+    if (!valid) alert(JSON.stringify(formik.errors));
+  };
 
   return (
     <Page>
@@ -128,6 +134,19 @@ const SignupPage = () => {
       <Title>Sign up</Title>
 
       <Form onSubmit={formik.handleSubmit}>
+        <Field>
+          <label htmlFor="name">User name</label>
+
+          <input
+            id="name"
+            name="name"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.name}
+            placeholder="Enter your name"
+          />
+        </Field>
+
         <Field>
           <label htmlFor="email">Email</label>
 
@@ -165,7 +184,9 @@ const SignupPage = () => {
           />
         </Field>
 
-        <Button type="submit">Create account</Button>
+        <Button onClick={() => handleClick()} type="submit">
+          Create account
+        </Button>
       </Form>
 
       <InfoText>Already have an account?</InfoText>
