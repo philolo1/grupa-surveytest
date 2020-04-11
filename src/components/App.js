@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
 
 import Signup from '../views/Signup';
 import Login from '../views/Login';
@@ -11,14 +10,7 @@ import Create from '../views/Create';
 import TitleAndDescription from '../views/TitleAndDescription';
 import Questions from '../views/Questions';
 import AddQuestion from '../views/AddQuestion';
-
-const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@600;700;800;900&display=swap');
-
-  body {
-    font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  }
-`;
+import GlobalStyle from '../styles/globalStyle';
 
 function App() {
   return (
