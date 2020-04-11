@@ -1,4 +1,4 @@
-import Firebase, { database } from 'firebase';
+import Firebase from 'firebase';
 
 
 const config = {
@@ -13,7 +13,3 @@ const config = {
 };
 
 Firebase.initializeApp(config);
-
-export default {
-  db: database()
-};
