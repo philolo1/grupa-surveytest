@@ -1,11 +1,85 @@
+import { useFormik } from 'formik';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import * as Yup from 'yup';
 
-export default () => (
-  <div>
-    <div>Login</div>
-    <Link to="/list">List of survey</Link>
-    <br />
-    <Link to="/signup">Signup</Link>
-  </div>
-)
+import {
+  Button,
+  ErrorToast,
+  Field,
+  Form,
+  InfoText,
+  LinkText,
+  Logo,
+  Title,
+} from '../components/signup/styles';
+import Page from '../components/Page';
+
+const Login = ({ history }) => {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email address').required('Required'),
+      password: Yup.string().min(6, 'Too Short').required('Required'),
+    }),
+    onSubmit: (values) => {
+      history.replace('/list');
+    },
+  });
+
+  const handleClick = async () => {
+    const values = formik.values;
+    const schema = Yup.object({
+      email: Yup.string().email('Invalid email address').required('Required'),
+      password: Yup.string().min(6, 'Too Short').required('Required'),
+    });
+    const valid = await schema.isValid(values);
+    if (!valid) alert(JSON.stringify(formik.errors));
+  };
+
+  return (
+    <Page>
+      <ErrorToast />
+      <Logo>Grupa</Logo>
+      <Title>Sign in</Title>
+
+      <Form onSubmit={formik.handleSubmit}>
+        <Field>
+          <label htmlFor="email">Email</label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            placeholder="example@site.com"
+          />
+        </Field>
+
+        <Field>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            placeholder="Enter your password"
+          />
+        </Field>
+
+        <Button onClick={() => handleClick()} type="submit">
+          Sign in
+        </Button>
+      </Form>
+
+      <InfoText>Do not have an account?</InfoText>
+      <LinkText to="/signup">Create account</LinkText>
+    </Page>
+  );
+};
+
+export default Login;
