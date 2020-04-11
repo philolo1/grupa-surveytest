@@ -25,7 +25,7 @@ export default class Auth {
   }
 
   signup (email, password, userName) {
-    auth().createUserWithEmailAndPassword(email, password).then(() => {
+    return auth().createUserWithEmailAndPassword(email, password).then(() => {
       console.log('just created', auth().currentUser)
       //this.userStore.changeUser(auth().currentUser.uid)
       firestore().collection('users').doc(auth().currentUser.uid).set({

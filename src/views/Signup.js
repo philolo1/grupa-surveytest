@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import Page from '../components/Page';
+import { inject } from 'mobx-react';
 
 const ErrorToast = styled.div`
   //background: #d8f0ea;
@@ -91,7 +92,7 @@ const LinkText = styled(Link)`
   margin-bottom: 50px;
 `;
 
-const SignupPage = ({ history }) => {
+const SignupPage = ({ auth }) => {
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -108,7 +109,10 @@ const SignupPage = ({ history }) => {
         .required('Password confirm is required'),
     }),
     onSubmit: (values) => {
-      history.replace('/list');
+      auth.signup(values.email, values.password, values.name).catch(err => {
+        //handle err
+        console.log('signup page error:', err)
+      });
     },
   });
 
@@ -194,4 +198,4 @@ const SignupPage = ({ history }) => {
   );
 };
 
-export default SignupPage;
+export default inject('auth')(SignupPage);
