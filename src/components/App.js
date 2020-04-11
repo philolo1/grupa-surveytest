@@ -5,12 +5,15 @@ import {
   Route
 } from "react-router-dom";
 
+import Firebase from './Firebase';
 import Login from '../views/Login';
 import List from '../views/List';
 import Result from '../views/Result';
 import Survey from '../views/Survey';
 
 import '../styles/App.css';
+
+Firebase.db.ref('/').once('value', snap => console.log('Firebase connected: ', snap.val()))
 
 function App() {
   return (
