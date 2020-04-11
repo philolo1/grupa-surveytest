@@ -5,5 +5,7 @@ export default () => (
   <div>
     <div>Login</div>
     <Link to="/list">List of survey</Link>
+    <br />
+    <Link to="/signup">Signup</Link>
   </div>
 )

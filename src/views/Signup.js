@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 
 export default () => (
   <div>
-      <div>Create Survey</div>
-      <Link to='/titleAndDescription'>Go to title and description</Link>
+    <div>Signup</div>
+    <Link to="/">Login</Link>
+    <br />
+    <Link to="/list">List of surveys</Link>
   </div>
 )
