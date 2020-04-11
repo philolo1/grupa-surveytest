@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default ({ name, id }) => (
+export default ({ survey }) => (
   <li>
-    <Link to={`/survey/${id}`}>{name}</Link>
+    <Link to={`/survey/${survey.uid}`}>{survey.title} - {survey.numberOfQuestions} - {survey.icon} - {survey.expiresAt}</Link>
   </li>
 )

@@ -4,6 +4,7 @@ import { firestore, auth } from "firebase";
 export default class User {
   constructor () {
     extendObservable(this, {
+      answeredIds: [],
       isAdmin: false,
       email: null,
       name: null,
@@ -16,6 +17,7 @@ export default class User {
     if (this.snapShotUnSub) {
       this.snapShotUnSub()
       this.snapShotUnSub = null
+      this.answeredIds = []
       this.isAdmin = false
       this.email = null
       this.name = null
@@ -30,6 +32,7 @@ export default class User {
     const v = doc.data()
     if (v) {
       console.log('updating user', v)
+      this.answeredIds = v.answeredIds || []
       this.isAdmin = v.isAdmin
       this.email = auth().currentUser.email
       this.name = v.name
