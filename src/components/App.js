@@ -1,16 +1,16 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
 
-import Signup from "../views/Signup";
-import Login from "../views/Login";
-import List from "../views/List";
-import Result from "../views/Result";
-import Survey from "../views/Survey";
-import Create from "../views/Create";
-import TitleAndDescription from "../views/TitleAndDescription";
-import Questions from "../views/Questions";
-import AddQuestion from "../views/AddQuestion";
+import Signup from '../views/Signup';
+import Login from '../views/Login';
+import List from '../views/List';
+import Result from '../views/Result';
+import Survey from '../views/Survey';
+import Create from '../views/Create';
+import TitleAndDescription from '../views/TitleAndDescription';
+import Questions from '../views/Questions';
+import AddQuestion from '../views/AddQuestion';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@600;700;800;900&display=swap');
