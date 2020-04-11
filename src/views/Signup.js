@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import Page from '../components/Page';
 
 const ErrorToast = styled.div`
-  background: ${(props) => props.theme.green};
+  //background: #d8f0ea;
   background: white;
   border-radius: 5px;
   height: 60px;
@@ -24,9 +24,9 @@ const Logo = styled.div`
 `;
 
 const Title = styled.div`
+  font-weight: 800;
   color: rgb(64, 64, 64);
   font-size: 26px;
-  font-weight: 800;
   text-align: center;
   margin-bottom: 24px;
 `;
@@ -61,11 +61,10 @@ const Field = styled.div`
     padding-left: 15px;
   }
 `;
-
 const Button = styled.button`
   width: 345px;
   height: 50px;
-  background: rgb(145, 145, 145);
+  background: #22b394;
   border-radius: 25px;
 
   color: rgb(255, 255, 255);
@@ -103,7 +102,7 @@ const SignupPage = ({ history }) => {
     validationSchema: Yup.object({
       name: Yup.string().required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().required('Required'),
+      password: Yup.string().min(6, 'Too Short').required('Required'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null])
         .required('Password confirm is required'),
@@ -118,7 +117,7 @@ const SignupPage = ({ history }) => {
     const schema = Yup.object({
       name: Yup.string().required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().required('Required'),
+      password: Yup.string().min(6, 'Too Short').required('Required'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null])
         .required('Password confirm is required'),
