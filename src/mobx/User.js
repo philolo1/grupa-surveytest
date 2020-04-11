@@ -6,6 +6,7 @@ export default class User {
     extendObservable(this, {
       isAdmin: false,
       email: null,
+      name: null,
       uid: null
     })
   }
@@ -17,6 +18,7 @@ export default class User {
       this.snapShotUnSub = null
       this.isAdmin = false
       this.email = null
+      this.name = null
       this.uid = null
     }
     if (id) {
@@ -30,6 +32,7 @@ export default class User {
       console.log('updating user', v)
       this.isAdmin = v.isAdmin
       this.email = auth().currentUser.email
+      this.name = v.name
       this.uid = auth().currentUser.uid
     }
   }

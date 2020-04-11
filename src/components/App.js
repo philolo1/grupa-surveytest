@@ -12,9 +12,10 @@ import Routes from './Routes';
 const user = new User()
 const auth = new Auth(user)
 const stores = { auth, user }
+
 /*
 setTimeout( () => {
-  auth.signup('hugues.alex+11@gmail.com', 'qwerty')
+  auth.signup('hugues.alex+121@gmail.com', 'qwerty', 'Hugues Alexandre')
 }, 3000)
 
 setTimeout( () => {
@@ -29,9 +30,6 @@ setTimeout( () => {
   auth.logout()
 }, 9000)
 */
-setTimeout( () => {
-  auth.login('hugues.alex@gmail.com', 'qwerty')
-}, 7000)
 
 function App() {
   return (

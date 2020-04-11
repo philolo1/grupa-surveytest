@@ -24,12 +24,13 @@ export default class Auth {
     auth().signInWithEmailAndPassword(email, password)
   }
 
-  signup (email, password) {
+  signup (email, password, userName) {
     auth().createUserWithEmailAndPassword(email, password).then(() => {
       console.log('just created', auth().currentUser)
       //this.userStore.changeUser(auth().currentUser.uid)
       firestore().collection('users').doc(auth().currentUser.uid).set({
-        isAdmin: false
+        isAdmin: false,
+        name: userName
       })
     })
   }
