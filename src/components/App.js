@@ -5,6 +5,7 @@ import {
   Route
 } from "react-router-dom";
 
+import Signup from '../views/Signup';
 import Login from '../views/Login';
 import List from '../views/List';
 import Result from '../views/Result';
@@ -16,6 +17,7 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/list/" component={List} />
         <Route path="/results/:id" component={Result} />

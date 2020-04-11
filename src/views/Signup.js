@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 export default () => (
   <div>
-    <div>Login</div>
-    <Link to="/list">List of survey</Link>
+    <div>Signup</div>
+    <Link to="/">Login</Link>
     <br />
-    <Link to="/signup">Signup</Link>
+    <Link to="/list">List of surveys</Link>
   </div>
 )
