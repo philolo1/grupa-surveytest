@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import Firebase from './Firebase';
 import Signup from '../views/Signup';
 import Login from '../views/Login';
 import List from '../views/List';
@@ -11,6 +12,8 @@ import TitleAndDescription from '../views/TitleAndDescription';
 import Questions from '../views/Questions';
 import AddQuestion from '../views/AddQuestion';
 import GlobalStyle from '../styles/globalStyle';
+
+Firebase.db.ref('/').once('value', snap => console.log('Firebase connected: ', snap.val()))
 
 function App() {
   return (
