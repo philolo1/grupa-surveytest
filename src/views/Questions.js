@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default () => (
   <div>
-      <div>Title and Description</div>
-      <Link to='/questions'>go to questions</Link>
+    <div>Questions</div>
+      <Link to='/'>add question</Link>
   </div>
 )
