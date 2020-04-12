@@ -4162,6 +4162,11 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
+emoji-picker-react@^3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/emoji-picker-react/-/emoji-picker-react-3.1.4.tgz#807a6916a4c3e0721977d35d1976b158f54cb765"
+  integrity sha512-DER77/ioEN0LL7wJvKUgo1qrRMO87XcXhmVqRldQ0egO5/PXD/Rlhu+gutt/Tk6QW8DffgtP24sJeq68Q/xbvw==
+
 emoji-regex@^7.0.1, emoji-regex@^7.0.2:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-7.0.3.tgz#933a04052860c85e83c122479c4748a8e4c72156"
@@ -9044,6 +9049,13 @@ react-app-polyfill@^1.0.6:
     raf "^3.4.1"
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
+
+react-day-picker@^7.4.0:
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-7.4.0.tgz#1b3dfe76a81864518d241214ba658da25903b7df"
+  integrity sha512-dqfr96EY7mHSpbW23hJI6of2JvxClDfHLNQ7VqctxBvNsJIzEiwh3zS8hEhqNza7xuR0vC4KN517zxndgb3/fw==
+  dependencies:
+    prop-types "^15.6.2"
 
 react-dev-utils@^10.2.1:
   version "10.2.1"

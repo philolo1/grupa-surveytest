@@ -1,9 +1,294 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import EmojiPicker from 'emoji-picker-react';
+import { useFormik } from 'formik';
+import { inject, observer } from 'mobx-react';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
+import * as Yup from 'yup';
+import _ from 'lodash';
 
-export default () => (
-  <div>
-      <div>Create Survey</div>
-      <Link to='/titleAndDescription'>Go to title and description</Link>
-  </div>
+import AddButton from '../components/button/AddButton';
+import History from '../tools/History';
+import Page from '../components/Page';
+import { Answers, TitleLeft, Footer, Field, SmallButton, MyRow, Button, Modal, Questions } from '../components/signup/styles';
+import styled from 'styled-components';
+
+const MyField = styled(Field)`
+  label {
+    margin-bottom: 10px;
+  }
+  input, textarea, .field {
+    width: auto;
+  }
+  textarea {
+    height: 100px;
+    padding: 10px 15px;
+  }
+`
+
+const MyRowTitle = styled(MyRow)`
+  margin-top: 20px;
+  margin-bottom: 24px;
+`
+
+const RowWithBottomMargin = styled(MyRow)`
+  margin-bottom: 30px;
+`
+
+const Col = styled(MyRow)`
+  flex-direction: column;
+  align-items: stretch;
+`
+
+const Informations = ({ init, onValidate }) => {
+  const formik = useFormik({
+    initialValues: {
+      title: init.title || 'dsa',
+      desc: init.desc || 'dsa',
+      icon: init.icon || '😃',
+      expiresAt: init.expiresAt || 0
+    },
+    validationSchema: Yup.object({
+      title: Yup.string().required('Required'),
+      desc: Yup.string().required('Required'),
+      icon: Yup.string().required('Required')
+    }),
+    onSubmit: (values) => {
+      onValidate(values)
+    },
+  });
+
+  const handleClick = async () => {
+    const values = formik.values;
+    const schema = Yup.object({
+      title: Yup.string().required('Required'),
+      desc: Yup.string().required('Required'),
+      icon: Yup.string().required('Required')
+    });
+    const valid = await schema.isValid(values);
+    if (!valid) alert(JSON.stringify(formik.errors));
+  };
+
+  return (
+    <>
+      <MyRowTitle>
+        <TitleLeft>Create Survey</TitleLeft>
+      </MyRowTitle>
+      <RowWithBottomMargin>
+        <div>Please enter a title, description. Then select an icon and choose to add a time limit or not.</div>
+      </RowWithBottomMargin>
+      <form onSubmit={formik.handleSubmit}>
+        <Col>
+          <MyField>
+            <label htmlFor="title">Title</label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              onChange={formik.handleChange}
+              value={formik.values.title}
+              placeholder="Enter title"
+            />
+          </MyField>
+        </Col>
+        <Col>
+          <MyField>
+            <label htmlFor="desc">Description</label>
+            <textarea
+              id="desc"
+              name="desc"
+              type="text"
+              onChange={formik.handleChange}
+              value={formik.values.desc}
+              placeholder="Enter description"
+            />
+          </MyField>
+        </Col>
+        <Col>
+          <MyField>
+            <label htmlFor="icon">Icon</label>
+            <EmojiField selected={formik.values.icon} onChange={v => formik.setFieldValue('icon', v)} />
+          </MyField>
+        </Col>
+        <Col>
+          <MyField>
+            <label htmlFor="expiresAt">Expire date</label>
+            <DayPickerInput onDayChange={day => formik.setFieldValue('expiresAt', day)} />
+          </MyField>
+        </Col>
+        <Footer>
+          <div>1/2</div>
+          <SmallButton disabled={!formik.isValid} onClick={() => handleClick()} type="submit">
+            Next
+          </SmallButton>
+        </Footer>
+      </form>
+  </>
+  )
+}
+
+const EmojiField = ({selected = '😃' , onChange}) => {
+  const [open, setOpen] = useState(false)
+
+  const handleEmojiClicked = (e, emojiObject) => {
+    setOpen(false)
+    onChange(emojiObject.emoji)
+  }
+
+  return (
+    <div className='field'>
+      <div onClick={() => setOpen(!open)}>
+        <Emoji>{selected}</Emoji>
+      </div>
+      {open ? <Modal><EmojiPicker onEmojiClick={handleEmojiClicked} /></Modal> : null}
+    </div>
+  )
+}
+
+/*
+const Emoji = ({ id }) => (
+  <aside className='emoji-picker-react'>
+    <div className='emoji-group'>
+      <div className='emoji'>
+        <button>
+          <img className='emoji-img' alt={id} href={`https://raw.githubusercontent.com/iamcal/emoji-data/master/img-apple-64/${id}.png`} />
+        </button>
+      </div>
+    </div>
+  </aside>
 )
+*/
+
+const Emoji = styled.div`
+  font-size: 24px;
+  color: black;
+  cursor: pointer;
+`
+
+class Create extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      loading: false,
+      page: 1
+    }
+    props.create.createNew()
+  }
+
+  handleInformationSave = v => {
+    console.log('handleInformationSave')
+    this.props.create.setInfos(v.title, v.desc, v.icon, v.time)
+    this.setState({ page: 2 })
+  }
+
+  handleQuestionSave = () => {
+    console.log('handleQuestionsSave')
+    const { create, survey } = this.props
+    survey.create(create.survey, create.question).then(
+      History.push('/list')
+    )
+  }
+
+  render() {
+    return (
+      <Page>
+        {this.state.page === 1 ? (
+          <Informations init={this.props.create.survey} onValidate={this.handleInformationSave} />
+        ) : (
+          <QuestionsView loading={this.state.loading} handleBackToSurvey={() => this.setState({ page: 1 })} onValidate={this.handleQuestionSave} />
+        )}
+      </Page>
+    )
+  }
+}
+
+const QuestionsView = inject('create')(observer(({ create, handleBackToSurvey, onValidate }) => {
+  const [adding, setAdding] = useState(false)
+  const q = create.questions
+
+  return (
+    <>
+      {adding ? <AddQuestion handleBackToQuestions={() => setAdding(false)} /> : (
+        <>
+          <MyRowTitle style={{ justifyContent: 'space-between' }}>
+            <TitleLeft>Questions</TitleLeft>
+            <AddButton onClick={() => setAdding(true)} />
+          </MyRowTitle>
+          {q.length > 0 ? q.map((qq, i) => <Question key={i} question={qq} />) : (
+            <Col style={{ alignItems: 'center', fontSize: '20px', justifyContent: 'center', flexGrow: 1 }}>
+              <div>Start by creating questions</div>
+              <div style={{ color: 'rgb(34, 179, 148)' }}>Add first question</div>
+            </Col>
+          )}
+          <Footer>
+            <div>2/2</div>
+            <SmallButton style={{ width: '142px' }} disabled={q.length < 1} onClick={() => onValidate()} type="submit">
+              Save Survery
+            </SmallButton>
+          </Footer>
+        </>
+      )}
+    </>
+  )
+}))
+
+const Question = ({ question }) => (
+  <Col style={{ borderBottom: '1px solid rgb(231, 231, 231)', paddingBottom: '15px' }}>
+    <Questions>{question.question}</Questions>
+    {question.answers.map((a,i) => <Answers key={i}>{a}</Answers>)}
+  </Col>
+)
+
+const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
+  const [answers, setAnswers] = useState([''])
+  const [question, setQuestion] = useState('')
+
+  const handleSaveQuestion = () => {
+    create.addQuestion(question, _.pull(answers.slice(), '', undefined))
+    handleBackToQuestions()
+  }
+
+  const handleReturnButtonPushed = () => {
+    handleBackToQuestions()
+  }
+
+  const changeAnswers = (i, v) => {
+    const a = JSON.parse(JSON.stringify(answers))
+    a[0] = answers[0] || ''
+    a[i] = v
+    setAnswers(a) 
+  }
+
+  return (
+    <>
+      <MyRowTitle>
+        <TitleLeft>Add question</TitleLeft>
+      </MyRowTitle>
+      <Col>
+        <MyField>
+          <label htmlFor="question">What do you what to ask?</label>
+          <textarea name="question" value={question} onChange={e => setQuestion(e.target.value)} />
+        </MyField>
+      </Col>
+      <Col>
+        <MyField>
+          <label htmlFor="answers">Multiple choice</label>
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
+            <input
+              style={{ display: i < 2 || answers[i-1] !== undefined  ? 'block' : 'none' }}
+              onChange={e => changeAnswers(i, e.target.value)}
+              name={i}
+              key={i}
+              value={answers[i] || ''}
+            />
+          ))}
+        </MyField>
+      </Col>
+      <Footer style={{ justifyContent: 'center' }}>
+        <Button disabled={_.pull(answers.slice(), '', undefined).length < 2 || question === ''} onClick={() => handleSaveQuestion()} type="submit">Save question</Button>
+      </Footer>
+    </>
+  )
+})
+
+export default inject('create', 'survey')(observer(Create))

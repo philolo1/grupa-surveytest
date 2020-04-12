@@ -30,8 +30,9 @@ export default class Survey {
   create (survey, questions) {
     // survey must contains those fields: desc, expiresAt as seconds since unix, icon, title and numberOfQuestions
     try {
-      survey.expiresAt = new firestore.Timestamp(survey.expiresAt || 0, 0)
-      firestore().collection('surveys').add(survey).then(docRef => {
+      if (survey.expiresAt)
+        survey.expiresAt = new firestore.Timestamp(survey.expiresAt || 0, 0)
+      return firestore().collection('surveys').add(survey).then(docRef => {
         questions.forEach((q,i) => {
           firestore().collection('surveys').doc(docRef.id).collection('questions').add(Object.assign(q, { idx: i+1 }))
         })
@@ -64,7 +65,7 @@ export default class Survey {
     this.currentSurvey = null
     firestore().collection('surveys').doc(id).get().then(survey => {
       const s = survey.data()
-      s.expiresAt = s.expiresAt.toMillis()
+      if (s.expiresAt) s.expiresAt = s.expiresAt.toMillis()
       firestore().collection('surveys').doc(id).collection('questions').get().then(questions => {
         const q = []
         questions.forEach(snap => q.push(Object.assign(snap.data(), {id: snap.id})))
@@ -85,8 +86,10 @@ export default class Survey {
       console.log('load some surveys', snap.size)
       this.loading = false
       snap.forEach(doc => {
-        const s = Object.assign({}, doc.data(), {uid: doc.id, expiresAt: doc.data().expiresAt.toMillis()})
-        console.log('s', s)
+        const addon = {uid: doc.id}
+        if (doc.data().expiresAt)
+          addon.expiresAt = doc.data().expiresAt.toMillis()
+        const s = Object.assign({}, doc.data(), addon)
         this.surveys.push(s)
       })
       if (snap.size < LOADING_NUMBER) {

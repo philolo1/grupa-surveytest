@@ -9,12 +9,13 @@ import Survey from '../mobx/Survey';
 
 import GlobalStyle from '../styles/globalStyle';
 import Routes from './Routes';
-import { firestore } from 'firebase';
+import Create from '../mobx/Create';
 
 const user = new User()
 const auth = new Auth(user)
 const survey = new Survey(user)
-const stores = { auth, survey, user }
+const create = new Create(survey)
+const stores = { auth, create, survey, user }
 
 /*
 setTimeout( () => {

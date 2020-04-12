@@ -13,8 +13,9 @@ import {
   Title,
 } from '../components/signup/styles';
 import Page from '../components/Page';
+import { inject } from 'mobx-react';
 
-const Login = ({ history }) => {
+const Login = ({ auth }) => {
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -25,7 +26,10 @@ const Login = ({ history }) => {
       password: Yup.string().min(6, 'Too Short').required('Required'),
     }),
     onSubmit: (values) => {
-      history.replace('/list');
+      auth.login(values.email, values.password).catch(err => {
+        //handle err
+        alert(`Error happened: ${err}`)
+      });
     },
   });
 
@@ -82,4 +86,4 @@ const Login = ({ history }) => {
   );
 };
 
-export default Login;
+export default inject('auth')(Login);
