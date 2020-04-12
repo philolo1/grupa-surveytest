@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import EmojiPicker from 'emoji-picker-react';
 import { useFormik } from 'formik';
 import { inject, observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { TitleLeft, Form, Field, SmallButton } from '../components/signup/styles';

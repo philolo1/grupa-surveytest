@@ -9,7 +9,6 @@ import Survey from '../mobx/Survey';
 
 import GlobalStyle from '../styles/globalStyle';
 import Routes from './Routes';
-import { firestore } from 'firebase';
 import Create from '../mobx/Create';
 
 const user = new User()

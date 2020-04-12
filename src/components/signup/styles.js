@@ -26,6 +26,26 @@ export const Title = styled.div`
   margin-bottom: 24px;
 `;
 
+export const HeaderTitle = styled.div`
+  color: rgb(73, 73, 73);
+  font-family: WorkSans-Black;
+  font-size: 26px;
+  font-weight: 900;
+  text-align: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+`;
+
+export const CategoryTitle = styled(HeaderTitle)`
+  color: rgb(64, 64, 64);
+  font-size: 36px;
+  font-weight: 900;
+  text-align: center;
+  padding-top: 31px;
+  padding-bottom: 24px;
+`;
+
+
 export const TitleLeft = styled(Title)`
   text-align: left;
 `;
@@ -96,4 +116,20 @@ export const LinkText = styled(Link)`
   text-align: center;
   text-decoration: none;
   margin-bottom: 50px;
+`;
+
+export const Row = styled.div`
+  display: flex;
+`;
+
+export const MyRow = styled(Row)`
+  // width: 100%;
+  // background-color: pink;
+  padding-right: 16px;
+  padding-left: 15px;
+`;
+
+export const Space = styled.div`
+  display: flex;
+  flex: 1;
 `;
