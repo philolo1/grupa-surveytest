@@ -140,8 +140,6 @@ export default inject(
           </StatusButton>
         </MyRow>
 
-        <div>List</div>
-
         <ul>
           {survey.surveys.map((s, i) => (
             <Thumb key={i} survey={s} />
