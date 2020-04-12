@@ -24,7 +24,7 @@ export default class Survey {
     firestore().collection('surveys').doc(surveyId).collection('answers').doc(this.userStore.uid).set(o)
     const a = this.userStore.answeredIds
     a.push(surveyId)
-    firestore().collection('users').doc(this.userStore.uid).update({answerIds: a})
+    firestore().collection('users').doc(this.userStore.uid).update({answeredIds: a})
   }
 
   create (survey, questions) {
@@ -42,7 +42,22 @@ export default class Survey {
   }
 
   results (surveyId) {
-    
+    this.currentResults = null
+    firestore().collection('surveys').doc(surveyId).collection('answers').get().then(snap => {
+      const answers = {}, totals = {}
+      snap.forEach(a => {
+        const d = a.data()
+        Object.keys(d).forEach(q => {
+          if (!totals[q]) totals[q] = 0
+          totals[q]++
+
+          if (!answers[q]) answers[q] = {}
+          if (!answers[q][d[q]]) answers[q][d[q]] = 0
+          answers[q][d[q]]++
+        })
+      })
+      this.currentResults = {answers, totals}
+    })
   }
 
   get (id) {
