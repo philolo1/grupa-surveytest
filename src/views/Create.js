@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import EmojiPicker from 'emoji-picker-react';
 import { useFormik } from 'formik';
 import { inject, observer } from 'mobx-react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
+import styled from 'styled-components';
 import * as Yup from 'yup';
 import _ from 'lodash';
 
 import AddButton from '../components/button/AddButton';
+import EmojiField from '../components/field/EmojiField';
 import History from '../tools/History';
 import Page from '../components/Page';
-import { Answers, TitleLeft, Footer, Field, SmallButton, MyRow, Button, Modal, Questions } from '../components/signup/styles';
-import styled from 'styled-components';
+import { Answers, TitleLeft, Footer, Field, SmallButton, MyRow, Button, Questions } from '../components/signup/styles';
 
 const MyField = styled(Field)`
   label {
@@ -127,111 +127,6 @@ const Informations = ({ init, onValidate }) => {
   )
 }
 
-const EmojiField = ({selected = '😃' , onChange}) => {
-  const [open, setOpen] = useState(false)
-
-  const handleEmojiClicked = (e, emojiObject) => {
-    setOpen(false)
-    onChange(emojiObject.emoji)
-  }
-
-  return (
-    <div className='field'>
-      <div onClick={() => setOpen(!open)}>
-        <Emoji>{selected}</Emoji>
-      </div>
-      {open ? <Modal><EmojiPicker onEmojiClick={handleEmojiClicked} /></Modal> : null}
-    </div>
-  )
-}
-
-/*
-const Emoji = ({ id }) => (
-  <aside className='emoji-picker-react'>
-    <div className='emoji-group'>
-      <div className='emoji'>
-        <button>
-          <img className='emoji-img' alt={id} href={`https://raw.githubusercontent.com/iamcal/emoji-data/master/img-apple-64/${id}.png`} />
-        </button>
-      </div>
-    </div>
-  </aside>
-)
-*/
-
-const Emoji = styled.div`
-  font-size: 24px;
-  color: black;
-  cursor: pointer;
-`
-
-class Create extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      loading: false,
-      page: 1
-    }
-    props.create.createNew()
-  }
-
-  handleInformationSave = v => {
-    console.log('handleInformationSave')
-    this.props.create.setInfos(v.title, v.desc, v.icon, v.time)
-    this.setState({ page: 2 })
-  }
-
-  handleQuestionSave = () => {
-    console.log('handleQuestionsSave')
-    const { create, survey } = this.props
-    survey.create(create.survey, create.question).then(
-      History.push('/list')
-    )
-  }
-
-  render() {
-    return (
-      <Page>
-        {this.state.page === 1 ? (
-          <Informations init={this.props.create.survey} onValidate={this.handleInformationSave} />
-        ) : (
-          <QuestionsView loading={this.state.loading} handleBackToSurvey={() => this.setState({ page: 1 })} onValidate={this.handleQuestionSave} />
-        )}
-      </Page>
-    )
-  }
-}
-
-const QuestionsView = inject('create')(observer(({ create, handleBackToSurvey, onValidate }) => {
-  const [adding, setAdding] = useState(false)
-  const q = create.questions
-
-  return (
-    <>
-      {adding ? <AddQuestion handleBackToQuestions={() => setAdding(false)} /> : (
-        <>
-          <MyRowTitle style={{ justifyContent: 'space-between' }}>
-            <TitleLeft>Questions</TitleLeft>
-            <AddButton onClick={() => setAdding(true)} />
-          </MyRowTitle>
-          {q.length > 0 ? q.map((qq, i) => <Question key={i} question={qq} />) : (
-            <Col style={{ alignItems: 'center', fontSize: '20px', justifyContent: 'center', flexGrow: 1 }}>
-              <div>Start by creating questions</div>
-              <div style={{ color: 'rgb(34, 179, 148)' }}>Add first question</div>
-            </Col>
-          )}
-          <Footer>
-            <div>2/2</div>
-            <SmallButton style={{ width: '142px' }} disabled={q.length < 1} onClick={() => onValidate()} type="submit">
-              Save Survery
-            </SmallButton>
-          </Footer>
-        </>
-      )}
-    </>
-  )
-}))
-
 const Question = ({ question }) => (
   <Col style={{ borderBottom: '1px solid rgb(231, 231, 231)', paddingBottom: '15px' }}>
     <Questions>{question.question}</Questions>
@@ -248,9 +143,11 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
     handleBackToQuestions()
   }
 
+  /*
   const handleReturnButtonPushed = () => {
     handleBackToQuestions()
   }
+  */
 
   const changeAnswers = (i, v) => {
     const a = JSON.parse(JSON.stringify(answers))
@@ -290,5 +187,72 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
     </>
   )
 })
+
+const QuestionsView = inject('create')(observer(({ create, handleBackToSurvey, onValidate }) => {
+  const [adding, setAdding] = useState(false)
+  const q = create.questions
+
+  return (
+    <>
+      {adding ? <AddQuestion handleBackToQuestions={() => setAdding(false)} /> : (
+        <>
+          <MyRowTitle style={{ justifyContent: 'space-between' }}>
+            <TitleLeft>Questions</TitleLeft>
+            <AddButton onClick={() => setAdding(true)} />
+          </MyRowTitle>
+          {q.length > 0 ? q.map((qq, i) => <Question key={i} question={qq} />) : (
+            <Col style={{ alignItems: 'center', fontSize: '20px', justifyContent: 'center', flexGrow: 1 }}>
+              <div>Start by creating questions</div>
+              <div style={{ color: 'rgb(34, 179, 148)' }}>Add first question</div>
+            </Col>
+          )}
+          <Footer>
+            <div>2/2</div>
+            <SmallButton style={{ width: '142px' }} disabled={q.length < 1} onClick={() => onValidate()} type="submit">
+              Save Survery
+            </SmallButton>
+          </Footer>
+        </>
+      )}
+    </>
+  )
+}))
+
+class Create extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      loading: false,
+      page: 1
+    }
+    props.create.createNew()
+  }
+
+  handleInformationSave = v => {
+    console.log('handleInformationSave')
+    this.props.create.setInfos(v.title, v.desc, v.icon, v.time)
+    this.setState({ page: 2 })
+  }
+
+  handleQuestionSave = () => {
+    console.log('handleQuestionsSave')
+    const { create, survey } = this.props
+    survey.create(create.survey, create.question).then(
+      History.push('/list')
+    )
+  }
+
+  render() {
+    return (
+      <Page>
+        {this.state.page === 1 ? (
+          <Informations init={this.props.create.survey} onValidate={this.handleInformationSave} />
+        ) : (
+          <QuestionsView loading={this.state.loading} handleBackToSurvey={() => this.setState({ page: 1 })} onValidate={this.handleQuestionSave} />
+        )}
+      </Page>
+    )
+  }
+}
 
 export default inject('create', 'survey')(observer(Create))
