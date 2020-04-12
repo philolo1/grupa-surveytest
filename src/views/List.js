@@ -81,6 +81,15 @@ const Header = ({}) => {
         <Space />
         <UserIcon />
       </MyRow>
+      {/* <MyRow style={{ backgroundColor: 'pink' }}>
+        {' '}
+        <SurveysTitle>Surveys</SurveysTitle>
+        <Space />
+      </MyRow> */}
+      {/* <MyRow style={{ backgroundColor: 'lightYellow' }}>
+        <StatusButton>Active</StatusButton>
+        <StatusButton style={{ backgroundColor: 'white' }}>Closed</StatusButton>
+      </MyRow> */}
     </>
   );
 };
@@ -124,6 +133,12 @@ export default inject(
           ) : null}
         </MyRow>
         {/* {isAdmin ? <Link to="/createSurvey">create survey</Link> : null} */}
+        <MyRow style={{ backgroundColor: 'lightYellow' }}>
+          <StatusButton>Active</StatusButton>
+          <StatusButton style={{ backgroundColor: 'white' }}>
+            Closed
+          </StatusButton>
+        </MyRow>
 
         <div>List</div>
 
