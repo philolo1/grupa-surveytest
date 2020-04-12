@@ -26,6 +26,10 @@ export const Title = styled.div`
   margin-bottom: 24px;
 `;
 
+export const TitleLeft = styled(Title)`
+  text-align: left;
+`;
+
 export const Form = styled.form`
   width: 100%;
   display: flex;
@@ -56,18 +60,26 @@ export const Field = styled.div`
     padding-left: 15px;
   }
 `;
+
 export const Button = styled.button`
   width: 345px;
   height: 50px;
   background: #22b394;
   border-radius: 25px;
 
+  border: 0;
   color: rgb(255, 255, 255);
   font-size: 16px;
   font-weight: bold;
   text-align: center;
   outline: none;
 `;
+
+export const SmallButton = styled(Button)`
+  color: white;
+  height: 40px;
+  width: 93px;
+`
 
 export const InfoText = styled.div`
   color: rgb(64, 64, 64);

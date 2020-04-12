@@ -30,7 +30,8 @@ export default class Survey {
   create (survey, questions) {
     // survey must contains those fields: desc, expiresAt as seconds since unix, icon, title and numberOfQuestions
     try {
-      survey.expiresAt = new firestore.Timestamp(survey.expiresAt || 0, 0)
+      if (survey.expiresAt)
+        survey.expiresAt = new firestore.Timestamp(survey.expiresAt || 0, 0)
       firestore().collection('surveys').add(survey).then(docRef => {
         questions.forEach((q,i) => {
           firestore().collection('surveys').doc(docRef.id).collection('questions').add(Object.assign(q, { idx: i+1 }))

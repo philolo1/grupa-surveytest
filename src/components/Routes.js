@@ -14,26 +14,32 @@ import { observer, inject } from 'mobx-react';
 
 export default  inject('user')(observer(({ user }) => {
   console.log('routes', user.uid)
-  return user.uid ? (
-    <Router>
+  return (
+    <Router history={window.myHistory}>
       <Switch>
-        <Route path="/createSurvey" component={Create} />
-        <Route path="/titleAndDescription" component={TitleAndDescription} />
-        <Route path="/questions" component={Questions} />
-        <Route path="/addQuestion" component={AddQuestion} />
-        <Route path="/list/" component={List} />
-        <Route path="/results/:id" component={Result} />
-        <Route path="/survey/:id/:page" component={Survey} />
-        <Route path="/survey/:id" component={Survey} />
-        <Route path="/" component={List} />
-      </Switch>
-    </Router>
-  ) : (
-    <Router>
-      <Switch>
-        <Route path="/signup" component={Signup} />
-        <Route path="/login" component={Login} />
-        <Route path="/" component={Login} />
+        {user.uid ? (
+          <>
+            {user.isAdmin ? (
+              <>
+                <Route path="/createSurvey" component={Create} />
+                <Route path="/titleAndDescription" component={TitleAndDescription} />
+                <Route path="/questions" component={Questions} />
+                <Route path="/addQuestion" component={AddQuestion} />
+              </>
+            ) : null}
+            <Route path="/list" component={List} />
+            <Route path="/results/:id" component={Result} />
+            <Route path="/survey/:id/:page" component={Survey} />
+            <Route path="/survey/:id" component={Survey} />
+            <Route exact path="/" component={List} />
+          </>
+        ) : (
+          <>
+            <Route path="/signup" component={Signup} />
+            <Route path="/login" component={Login} />
+            <Route exact path="/" component={Login} />
+          </>
+        )}
       </Switch>
     </Router>
   )
