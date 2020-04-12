@@ -7,12 +7,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body::after {
-  content: '';
-  display: block;
-  height: 50px; /* Set same as footer's height */
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -21,4 +15,8 @@ code {
 
 .emoji-picker-react {
   box-shadow: none !important;
+}
+
+ul.skin-tones-list {
+  display: none;
 }

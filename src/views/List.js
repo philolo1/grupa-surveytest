@@ -1,20 +1,13 @@
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
-import React, { useEffect } from 'react';
+import styled from 'styled-components';
 
+import AddButton from '../components/button/AddButton';
 import { Button, CategoryTitle, MyRow, Space } from '../components/signup/styles';
 import Page from '../components/Page';
 import Thumb from '../components/survey/Thumb';
 
-import styled from 'styled-components';
-
-const AddButton = styled.div`
-  background: rgb(34, 179, 148);
-  border-radius: 20px;
-  height: 40px;
-  width: 40px;
-  margin-top: 32px;
-`;
 
 const StatusButton = styled.div`
   display: flex;
@@ -33,20 +26,7 @@ const StatusButton = styled.div`
 
 const CreateButton = () => (
   <Link to="/createSurvey" style={{ textDecoration: 'none' }}>
-    {' '}
-    <AddButton>
-      <div
-        style={{
-          color: 'white',
-          fontSize: 27,
-          paddingTop: 1,
-          paddingLeft: 8,
-          fontWeight: 500,
-        }}
-      >
-        ＋
-      </div>
-    </AddButton>
+    <AddButton />
   </Link>
 )
 
@@ -63,7 +43,6 @@ export default inject(
     return (
       <Page>
         <MyRow>
-          {' '}
           <CategoryTitle>Surveys</CategoryTitle>
           <Space />
           {isAdmin ? <CreateButton /> : null}
