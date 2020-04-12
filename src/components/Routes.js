@@ -14,19 +14,6 @@ import { observer, inject } from 'mobx-react';
 
 export default inject('user')(
   observer(({ user }) => {
-    const [display, setDisplay] = useState(false);
-    console.log('routes', user.uid);
-
-    useEffect(() => {
-      setTimeout(() => {
-        setDisplay(true);
-      }, 2000);
-    }, []);
-
-    if (!display) {
-      return <div />;
-    }
-
     return user.uid ? (
       <Router>
         <Switch>
