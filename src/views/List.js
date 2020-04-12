@@ -13,8 +13,8 @@ const Row = styled.div`
 `;
 
 const MyRow = styled(Row)`
-  width: 100%;
-  background-color: red;
+  // width: 100%;
+  background-color: pink;
   padding-right: 16px;
   padding-left: 15px;
 `;
@@ -85,8 +85,8 @@ const Header = ({}) => {
         {' '}
         <SurveysTitle>Surveys</SurveysTitle>
         <Space />
-      </MyRow> */}
-      {/* <MyRow style={{ backgroundColor: 'lightYellow' }}>
+      </MyRow>
+      <MyRow style={{ backgroundColor: 'lightYellow' }}>
         <StatusButton>Active</StatusButton>
         <StatusButton style={{ backgroundColor: 'white' }}>Closed</StatusButton>
       </MyRow> */}
@@ -132,7 +132,6 @@ export default inject(
             </Link>
           ) : null}
         </MyRow>
-        {/* {isAdmin ? <Link to="/createSurvey">create survey</Link> : null} */}
         <MyRow style={{ backgroundColor: 'lightYellow' }}>
           <StatusButton>Active</StatusButton>
           <StatusButton style={{ backgroundColor: 'white' }}>
@@ -140,11 +139,9 @@ export default inject(
           </StatusButton>
         </MyRow>
 
-        <ul>
-          {survey.surveys.map((s, i) => (
-            <Thumb key={i} survey={s} />
-          ))}
-        </ul>
+        {survey.surveys.map((s, i) => (
+          <Thumb key={i} survey={s} />
+        ))}
         <Button onClick={() => survey.load()}>Load</Button>
         <Button onClick={() => survey.loadMore()}>Load More</Button>
         {survey.loading ? <div>Loading...</div> : null}

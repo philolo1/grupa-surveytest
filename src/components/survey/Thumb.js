@@ -4,9 +4,10 @@ import _ from 'lodash';
 import styled from 'styled-components';
 
 const ListBox = styled.div`
-  width: 100%;
   padding-top: 25px;
   // height: 241px;
+  padding-right: 16px;
+  padding-left: 15px;
 `;
 
 const Title = styled.div`
@@ -17,7 +18,7 @@ const Title = styled.div`
   font-size: 26px;
   font-weight: 800;
   // height: 30px;
-  width: 100%;
+  // width: 100%;
   padding-bottom: 19px;
 `;
 const SubTitle = styled.div`
@@ -28,7 +29,6 @@ const SubTitle = styled.div`
   font-size: 16px;
   font-weight: normal;
   // height: 19px;
-  width: 100%;
   padding-bottom: 19px;
 `;
 const QText = styled.div`
@@ -61,7 +61,7 @@ const CompletedButton = styled.div`
   text-align: center;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  // margin-top: 20px;
 `;
 
 const MyBorder = styled.div`
@@ -73,6 +73,11 @@ const MyBorder = styled.div`
 const Row = styled.div`
   display: flex;
 `;
+const IconRow = styled(Row)`
+  align-items: center;
+  padding-bottom: 5px;
+`;
+
 const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -90,35 +95,31 @@ export default ({ survey }) => {
 
   console.log('isCompleted', Math.random(), isCompleted);
   return (
-    <ListBox style={{ backgroundColor: 'pink' }}>
-      <li>
+    <>
+      <ListBox style={{ backgroundColor: 'lightYellow' }}>
         <Link to={`/survey/${survey.uid}`} style={{ textDecoration: 'none' }}>
           <Column>
-            <Row>
-              <div style={{ fontSize: 36, paddingBottom: 5 }}>
-                {survey.icon}
-              </div>
+            <IconRow>
+              <div style={{ fontSize: 36 }}>{survey.icon}</div>
               <Space />
               {isCompleted ? (
                 <CompletedButton>Completed</CompletedButton>
               ) : (
                 <div />
               )}
-            </Row>
+            </IconRow>
             <Title>{survey.title}</Title>
             <SubTitle>{survey.desc}</SubTitle>
             <Row>
               <QText>{survey.numberOfQuestions} questions</QText>
               <Space />
               <PostIcon />
-              {survey.expiresAt}
+              {new Date(survey.expiresAt).toDateString()}
             </Row>
           </Column>
-          <MyBorder />1{survey.title} - 2{survey.numberOfQuestions} - 3
-          {survey.desc} - 4{survey.icon} - 5{survey.expiresAt}
-          🍔
         </Link>
-      </li>
-    </ListBox>
+      </ListBox>
+      <MyBorder />
+    </>
   );
 };

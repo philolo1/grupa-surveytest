@@ -9,13 +9,15 @@ const Outer = styled.div`
   width: 100%;
 `;
 const Inner = styled.div`
-max-width: 400px;
-`
+  max-width: 400px;
+`;
 
 class Page extends Component {
   render() {
     return (
-    <Outer><Inner>{this.props.children}</Inner></Outer>
+      <Outer>
+        <Inner>{this.props.children}</Inner>
+      </Outer>
     );
   }
 }
