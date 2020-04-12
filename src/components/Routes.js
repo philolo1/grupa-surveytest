@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Signup from '../views/Signup';
@@ -13,7 +13,6 @@ import AddQuestion from '../views/AddQuestion';
 import { observer, inject } from 'mobx-react';
 
 export default  inject('user')(observer(({ user }) => {
-  console.log('routes', user.uid)
   return (
     <Router history={window.myHistory}>
       <Switch>
