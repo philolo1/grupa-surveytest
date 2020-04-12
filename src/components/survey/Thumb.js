@@ -96,7 +96,7 @@ export default ({ survey }) => {
   console.log('isCompleted', Math.random(), isCompleted);
   return (
     <>
-      <ListBox style={{ backgroundColor: 'lightYellow' }}>
+      <ListBox>
         <Link to={`/survey/${survey.uid}`} style={{ textDecoration: 'none' }}>
           <Column>
             <IconRow>

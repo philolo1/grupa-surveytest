@@ -14,7 +14,7 @@ const Row = styled.div`
 
 const MyRow = styled(Row)`
   // width: 100%;
-  background-color: pink;
+  // background-color: pink;
   padding-right: 16px;
   padding-left: 15px;
 `;
@@ -54,7 +54,7 @@ const AddButton = styled.div`
 const UserIcon = styled.img`
   width: 18px;
   height: 18px;
-  background-color: lightYellow;
+  background-color: pink;
   margin-top: 20px;
 `;
 const StatusButton = styled.div`
@@ -109,7 +109,7 @@ export default inject(
     return (
       <Page>
         <Header />
-        <MyRow style={{ backgroundColor: 'pink' }}>
+        <MyRow>
           {' '}
           <SurveysTitle>Surveys</SurveysTitle>
           <Space />
@@ -132,7 +132,7 @@ export default inject(
             </Link>
           ) : null}
         </MyRow>
-        <MyRow style={{ backgroundColor: 'lightYellow' }}>
+        <MyRow>
           <StatusButton>Active</StatusButton>
           <StatusButton style={{ backgroundColor: 'white' }}>
             Closed
