@@ -100,6 +100,7 @@ export default class Survey {
 
   get(id) {
     this.currentSurvey = null;
+    this.currentResults = null;
     firestore()
       .collection('surveys')
       .doc(id)

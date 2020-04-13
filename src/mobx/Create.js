@@ -11,7 +11,7 @@ export default class Create {
 
   createNew () {
     this.survey = {}
-    this.question = []
+    this.questions = []
   }
 
   addQuestion (question, answers) {

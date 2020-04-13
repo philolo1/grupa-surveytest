@@ -64,13 +64,16 @@ export default inject('survey')(observer(({history, survey}) => {
 
   const s = toJS(survey.currentSurvey)
   const r = toJS(survey.currentResults)
-
   return (
     <Page history={history}>
-      <BackRow text={`Close ${s && s.title}`} onClick={() => history.push('/list')} />
-      {s && r ? s.questions.map((q, i) => (
-        <ResultQuestion key={i} question={q} answers={r.answers[q.id]} totals={r.totals[q.id]} />
-      )) : null}
+      {s && r ? (
+        <>
+          <BackRow text={`Close ${s && s.title}`} onClick={() => history.push('/list')} />
+          {s.questions.map((q, i) => (
+          <ResultQuestion key={i} question={q} answers={r.answers[q.id]} totals={r.totals[q.id]} />
+          ))}
+        </>
+      ) : null}
     </Page>
   )
 }))
