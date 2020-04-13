@@ -142,7 +142,7 @@ const Informations = ({ init, history, onValidate }) => {
         <Footer>
           <div>1/2</div>
           <SmallButton
-            disabled={!formik.isValid}
+            disabled={!formik.isValid || formik.values.title === ''}
             onClick={() => handleClick()}
             type="submit"
           >
@@ -173,7 +173,7 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
   const [question, setQuestion] = useState('');
 
   const handleSaveQuestion = () => {
-    create.addQuestion(question, _.pull(answers.slice(), '', undefined));
+    create.addQuestion(question, formatedAnswers());
     handleBackToQuestions();
   };
 
@@ -187,6 +187,10 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
     a[i] = v;
     setAnswers(a);
   };
+
+  const formatedAnswers = () => {
+    return _.uniq(_.pull(answers.slice(), '', undefined))
+  }
 
   return (
     <>
@@ -224,7 +228,7 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
       <Footer style={{ justifyContent: 'center' }}>
         <Button
           disabled={
-            _.pull(answers.slice(), '', undefined).length < 2 || question === ''
+            (formatedAnswers().length < 2 ) || question === ''
           }
           onClick={() => handleSaveQuestion()}
           type="submit"
@@ -264,7 +268,7 @@ const QuestionsView = inject('create')(
                 }}
               >
                 <div>Start by creating questions</div>
-                <div style={{ color: 'rgb(34, 179, 148)' }}>
+                <div onClick={() => setAdding(true)} style={{ color: 'rgb(34, 179, 148)', cursor: 'pointer' }}>
                   Add first question
                 </div>
               </Col>
