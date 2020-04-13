@@ -3,8 +3,12 @@
 Comment: The project was started at 23:00 japanese time, so we should have time until April 13, 23:00 Japanese time. The app is showing the wrong time. So please only review this afterwards.
 
 Test credentials:
-Admin user: admin@gmail.com Password: 123Testen!
-Normal user: user@gmail.com Password: 123Testen!
+
+Admin user: admin@gmail.com Password: 123Testen! <br />
+Admin2 user: admin2@gmail.com Password: 123Testen! <br />
+Admin3 user: admin3@gmail.com Password: 123Testen! <br />
+Admin4 user: admin4@gmail.com Password: 123Testen! <br />
+Normal user: user@gmail.com Password: 123Testen! <br />
 
 Design: https://app.abstract.com/share/c59f7b79-b8da-4508-8887-6f1c999f7e33
 
