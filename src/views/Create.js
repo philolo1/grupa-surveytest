@@ -43,15 +43,16 @@ const Col = styled(MyRow)`
 const Informations = ({ init, onValidate }) => {
   const formik = useFormik({
     initialValues: {
-      title: init.title || 'dsa',
-      desc: init.desc || 'dsa',
+      title: init.title || '',
+      desc: init.desc || '',
       icon: init.icon || '😃',
-      expiresAt: init.expiresAt || 0
+      expiresAt: init.expiresAt || null
     },
     validationSchema: Yup.object({
       title: Yup.string().required('Required'),
       desc: Yup.string().required('Required'),
-      icon: Yup.string().required('Required')
+      icon: Yup.string().required('Required'),
+      expiresAt: Yup.date().required('Required')
     }),
     onSubmit: (values) => {
       onValidate(values)
@@ -63,7 +64,8 @@ const Informations = ({ init, onValidate }) => {
     const schema = Yup.object({
       title: Yup.string().required('Required'),
       desc: Yup.string().required('Required'),
-      icon: Yup.string().required('Required')
+      icon: Yup.string().required('Required'),
+      expiresAt: Yup.date().required('Required')
     });
     const valid = await schema.isValid(values);
     if (!valid) alert(JSON.stringify(formik.errors));
@@ -230,7 +232,7 @@ class Create extends React.Component {
 
   handleInformationSave = v => {
     console.log('handleInformationSave')
-    this.props.create.setInfos(v.title, v.desc, v.icon, v.time)
+    this.props.create.setInfos(v.title, v.desc, v.icon, v.expiresAt)
     this.setState({ page: 2 })
   }
 
