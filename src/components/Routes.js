@@ -12,9 +12,13 @@ import Questions from '../views/Questions';
 import AddQuestion from '../views/AddQuestion';
 import { observer, inject } from 'mobx-react';
 import history from '../tools/History';
+import Page from './Page';
 
-export default inject('user')(
-  observer(({ user }) => {
+export default inject('auth', 'user')(
+  observer(({ auth, user }) => {
+    if (!auth.isReady) {
+      return <Page>Loading...</Page>
+    }
     return (
       <Router history={history}>
         <Switch>
