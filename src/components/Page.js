@@ -19,7 +19,7 @@ const Inner = styled.div`
   height: 100%;
   max-width: 400px;
   overflow: auto;
-  padding-bottom: 60px;
+  //padding-bottom: 60px;
   position: relative;
   width: 100%;
 `;

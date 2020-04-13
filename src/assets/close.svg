@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>close</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="survey-1" transform="translate(-12.000000, -111.000000)" fill="#404040">
+            <g id="Group-4" transform="translate(-1.000000, 91.000000)">
+                <g id="Group">
+                    <path d="M21,19 L21,25.999 L28,26 L28,28 L21,28 L21,35 L19,35 L19,28 L12,28 L12,26 L19,26 L19,19 L21,19 Z" id="close" transform="translate(20.000000, 27.000000) rotate(45.000000) translate(-20.000000, -27.000000) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

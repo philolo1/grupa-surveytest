@@ -10,7 +10,7 @@ const SmallButtonStyled = styled.div`
   color: #22b394;
   text-align: center;
   height: 40px;
-  width: 150px;
+  width: 140px;
   margin-left: 19px;
   display: flex;
   align-items: center;
