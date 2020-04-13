@@ -11,7 +11,6 @@ import TitleAndDescription from '../views/TitleAndDescription';
 import Questions from '../views/Questions';
 import AddQuestion from '../views/AddQuestion';
 import { observer, inject } from 'mobx-react';
-import history from '../tools/History';
 import Page from './Page';
 
 export default inject('auth', 'user')(
@@ -20,7 +19,7 @@ export default inject('auth', 'user')(
       return <Page>Loading...</Page>
     }
     return (
-      <Router history={history}>
+      <Router>
         <Switch>
           {user.uid ? (
             <>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
 import styled from 'styled-components';
 import TimeImg from '../../assets/time.svg';
 import { inject, observer } from 'mobx-react';

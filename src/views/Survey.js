@@ -1,11 +1,9 @@
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { inject, observer } from 'mobx-react';
 import { useParams } from 'react-router';
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Box, Row } from '../components/Box';
-import { Button } from '../components/signup/styles';
 import BackRow from '../components/BackRow';
 import BigButton from '../components/button/BigButton';
 import Page from '../components/Page';
