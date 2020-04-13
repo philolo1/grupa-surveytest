@@ -262,6 +262,10 @@ export default inject('survey')(
     }, [survey, id]);
 
     const s = survey.currentSurvey;
+    if (s !== null && id !== s.id) {
+      return <Page>Loading...</Page>
+    }
+
     if (page === undefined) {
       return <WelcomeSurvey survey={s} history={history} id={id} />;
     } else if (page === 'finish') {

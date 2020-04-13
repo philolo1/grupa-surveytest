@@ -108,6 +108,7 @@ export default class Survey {
       .then(survey => {
         const s = survey.data();
         if (s.expiresAt) s.expiresAt = s.expiresAt.toMillis();
+        s.id = id;
         firestore()
           .collection('surveys')
           .doc(id)

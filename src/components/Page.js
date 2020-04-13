@@ -30,13 +30,18 @@ const UserIcon = styled.img`
 
 const RowWithShadow = styled(MyRow)`
   box-shadow: 0px 4px 2px -2px rgba(0, 0, 0, 0.13);
+  margin-top: 50px;
 `;
 
-const Header = inject('auth')(({ auth, history }) => (
+const Name = styled.div`
+  margin-right: 10px;
+`
+const Header = inject('auth', 'user')(({ auth, history, user }) => (
   <>
     <RowWithShadow>
       <HeaderTitle>Grupa</HeaderTitle>
       <Space />
+      <Name>{user.name}</Name>
       <UserIcon src={UserImg} onClick={() => {
         auth.logout()
         history.push('/')
