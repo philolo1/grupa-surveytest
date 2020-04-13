@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import _ from 'lodash';
 
 import AddButton from '../components/button/AddButton';
+import BackRow from '../components/BackRow';
 import EmojiField from '../components/field/EmojiField';
 import Page from '../components/Page';
 import {
@@ -50,7 +51,7 @@ const Col = styled(MyRow)`
   align-items: stretch;
 `;
 
-const Informations = ({ init, onValidate }) => {
+const Informations = ({ init, history, onValidate }) => {
   const formik = useFormik({
     initialValues: {
       title: init.title || '',
@@ -83,6 +84,7 @@ const Informations = ({ init, onValidate }) => {
 
   return (
     <>
+      <BackRow onClick={() => history.push('/list')} text='Back to Surveys' />
       <MyRowTitle>
         <TitleLeft>Create Survey</TitleLeft>
       </MyRowTitle>
@@ -133,6 +135,7 @@ const Informations = ({ init, onValidate }) => {
             <label htmlFor="expiresAt">Expire date</label>
             <DayPickerInput
               onDayChange={day => formik.setFieldValue('expiresAt', day)}
+              value={formik.values.expiresAt}
             />
           </MyField>
         </Col>
@@ -174,11 +177,9 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
     handleBackToQuestions();
   };
 
-  /*
   const handleReturnButtonPushed = () => {
     handleBackToQuestions()
   }
-  */
 
   const changeAnswers = (i, v) => {
     const a = JSON.parse(JSON.stringify(answers));
@@ -189,6 +190,7 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
 
   return (
     <>
+      <BackRow onClick={handleReturnButtonPushed} text='Back to questions' />
       <MyRowTitle>
         <TitleLeft>Add question</TitleLeft>
       </MyRowTitle>
@@ -245,6 +247,7 @@ const QuestionsView = inject('create')(
           <AddQuestion handleBackToQuestions={() => setAdding(false)} />
         ) : (
           <>
+            <BackRow onClick={handleBackToSurvey} text='Back to Step 1' />
             <MyRowTitle style={{ justifyContent: 'space-between' }}>
               <TitleLeft>Questions</TitleLeft>
               <AddButton onClick={() => setAdding(true)} />
@@ -312,6 +315,7 @@ class Create extends React.Component {
         {this.state.page === 1 ? (
           <Informations
             init={this.props.create.survey}
+            history={this.props.history}
             onValidate={this.handleInformationSave}
           />
         ) : (
