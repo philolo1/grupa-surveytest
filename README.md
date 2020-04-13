@@ -10,6 +10,8 @@ Normal user: user@gmail.com Password: 123Testen! <br />
 
 Design: https://app.abstract.com/share/c59f7b79-b8da-4508-8887-6f1c999f7e33
 
+Link to website: https://grupa-survey.web.app
+
 ## Stack
 
 FE: React with MobX and styled components
