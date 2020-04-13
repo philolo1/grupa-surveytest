@@ -35,7 +35,6 @@ const RowWithShadow = styled(MyRow)`
 
 const Header = inject('auth')(({ auth }) => (
   <>
-    <div style={{ height: 56 }} />
     <RowWithShadow>
       <HeaderTitle>Grupa</HeaderTitle>
       <Space />
