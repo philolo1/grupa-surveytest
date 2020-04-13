@@ -136,7 +136,6 @@ export default class Survey {
       .limit(LOADING_NUMBER)
       .get()
       .then(snap => {
-        console.log('load some surveys', snap.size);
         this.loading = false;
         snap.forEach(doc => {
           const addon = { uid: doc.id };

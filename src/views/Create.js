@@ -295,13 +295,11 @@ class Create extends React.Component {
   }
 
   handleInformationSave = v => {
-    console.log('handleInformationSave');
     this.props.create.setInfos(v.title, v.desc, v.icon, v.expiresAt);
     this.setState({ page: 2 });
   };
 
   handleQuestionSave = () => {
-    console.log('handleQuestionsSave');
     const { create, survey } = this.props;
     survey.create(create.survey, create.question).then(() => {
       this.props.history.push('/list');

@@ -13,7 +13,6 @@ export default class User {
   }
 
   changeUser (id) {
-    console.log('user changed', id)
     if (this.snapShotUnSub) {
       this.snapShotUnSub()
       this.snapShotUnSub = null
@@ -31,7 +30,6 @@ export default class User {
   handleChange = (doc) => {
     const v = doc.data()
     if (v) {
-      console.log('updating user', v)
       this.answeredIds = v.answeredIds || []
       this.isAdmin = v.isAdmin
       this.email = auth().currentUser.email

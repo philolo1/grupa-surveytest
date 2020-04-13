@@ -262,7 +262,6 @@ export default inject('survey')(
 
     const { id, page } = useParams();
     const s = survey.currentSurvey;
-    console.log('page', page);
     //let linkText
     let element;
     if (page === undefined) {

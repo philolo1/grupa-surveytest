@@ -17,7 +17,6 @@ export default class Create {
   addQuestion (question, answers) {
     this.questions.push({ question, answers })
     this.survey.numberOfQuestions = this.questions.length
-    console.log(this.questions, this.survey)
   }
 
   setInfos (title, desc, icon, expiresAt = null) {

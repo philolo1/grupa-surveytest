@@ -8,10 +8,8 @@ export default class Auth {
 
   authStateObserved = (user) => {
     if (user) {
-      console.log(user.uid)
       this.userStore.changeUser(user.uid)
     } else {
-      console.log('no user')
       this.userStore.changeUser(null)
     }
   }
@@ -26,8 +24,6 @@ export default class Auth {
 
   signup (email, password, userName) {
     return auth().createUserWithEmailAndPassword(email, password).then(() => {
-      console.log('just created', auth().currentUser)
-      //this.userStore.changeUser(auth().currentUser.uid)
       firestore().collection('users').doc(auth().currentUser.uid).set({
         isAdmin: false,
         name: userName
