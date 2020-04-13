@@ -110,6 +110,7 @@ export default class Survey {
           .collection('surveys')
           .doc(id)
           .collection('questions')
+          .orderBy('idx', 'asc')
           .get()
           .then(questions => {
             const q = [];

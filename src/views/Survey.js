@@ -229,7 +229,7 @@ const AskSurvey = ({ id, page, history, survey, mainSurvey }) => {
                     history.push(`/survey/${id}/${parseInt(page) + 1}`);
                     const myAnswers = answers.map(e => e);
                     myAnswers.push({
-                      id: question.idx,
+                      id: question.id,
                       value: answer
                     });
 
@@ -237,7 +237,7 @@ const AskSurvey = ({ id, page, history, survey, mainSurvey }) => {
                   } else {
                     const myAnswers = answers.map(e => e);
                     myAnswers.push({
-                      id: question.idx,
+                      id: question.id,
                       value: answer
                     });
                     mainSurvey.answer(id, myAnswers);
@@ -256,11 +256,11 @@ const AskSurvey = ({ id, page, history, survey, mainSurvey }) => {
 
 export default inject('survey')(
   observer(({ survey, history }) => {
+    const { id, page } = useParams();
     useEffect(() => {
       survey.get(id);
-    }, []);
+    }, [survey, id]);
 
-    const { id, page } = useParams();
     const s = survey.currentSurvey;
     //let linkText
     let element;

@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { Button } from '../components/signup/styles';
+import { CategoryTitle, MyRow } from '../components/signup/styles';
 import { inject, observer } from 'mobx-react';
 import styled from 'styled-components';
+import { toJS } from 'mobx';
+import Page from '../components/Page';
+import BackRow from '../components/BackRow';
 
 const Thumb = styled.div`
   width: ${props => props.percentage}%;
@@ -18,6 +21,16 @@ const Track = styled.div`
   width: 100%;
   height: 24px;
   background-color: #F2F2F2;
+  margin-bottom: 15px;
+`
+
+const Col = styled(MyRow)`
+  flex-direction: column;
+  align-items: stretch;
+`;
+
+const Question = styled(CategoryTitle)`
+  text-align: left;
 `
 
 const ProgressBar = ({ percentage }) => (
@@ -36,26 +49,28 @@ const ResultAnswer = ({answer, percentage}) => (
 )
 
 const ResultQuestion = ({ answers, question, totals}) => (
-  <div>
-      <div>{question.question}</div>
+  <Col>
+      <Question>{question.question}</Question>
       {question.answers.map((a, i) => <ResultAnswer answer={a} key={i} percentage={Math.round( (answers[a] || 0) / totals * 100)} />)}
-  </div>
+  </Col>
 )
 
-export default inject('survey')(observer(({survey}) => {
+export default inject('survey')(observer(({history, survey}) => {
   const { id } = useParams();
-  const s = survey.currentSurvey
-  const r = survey.currentResults
+  useEffect(() => {
+    survey.get(id)
+    survey.results(id)
+  }, [survey, id]);
+
+  const s = toJS(survey.currentSurvey)
+  const r = toJS(survey.currentResults)
+
   return (
-    <div>
-      {`Result of  ${id}`}
-      <Button onClick={() => {
-        survey.get(id)
-        survey.results(id)
-      }}>Get results</Button>
+    <Page>
+      <BackRow text={`Close ${s && s.title}`} onClick={() => history.push('/list')} />
       {s && r ? s.questions.map((q, i) => (
         <ResultQuestion key={i} question={q} answers={r.answers[q.id]} totals={r.totals[q.id]} />
       )) : null}
-    </div>
+    </Page>
   )
 }))
