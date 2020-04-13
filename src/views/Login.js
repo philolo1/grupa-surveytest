@@ -1,7 +1,8 @@
+import { inject } from 'mobx-react';
 import { useFormik } from 'formik';
 import React from 'react';
-import * as Yup from 'yup';
 import Swal from 'sweetalert2';
+import * as Yup from 'yup';
 
 import {
   Button,
@@ -14,7 +15,7 @@ import {
   Title
 } from '../components/signup/styles';
 import Page from '../components/Page';
-import { inject } from 'mobx-react';
+import errorAlert from '../tools/errorAlert';
 
 const Login = ({ auth }) => {
   const formik = useFormik({
@@ -33,11 +34,7 @@ const Login = ({ auth }) => {
     onSubmit: values => {
       auth.login(values.email, values.password).catch(err => {
         //handle err
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: `${err}`
-        });
+        errorAlert(`${err}`);
       });
     }
   });

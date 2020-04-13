@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { inject, observer } from 'mobx-react';
 import { HeaderTitle, MyRow, Space } from './signup/styles';
 import UserImg from '../assets/user@3x.png';
+import Swal from 'sweetalert2';
 
 const Outer = styled.div`
   display: flex;
@@ -26,6 +27,9 @@ const Inner = styled.div`
 const UserIcon = styled.img`
   width: 20px;
   height: 20px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const RowWithShadow = styled(MyRow)`
@@ -35,29 +39,40 @@ const RowWithShadow = styled(MyRow)`
 
 const Name = styled.div`
   margin-right: 10px;
-`
+`;
 const Header = inject('auth', 'user')(({ auth, history, user }) => (
   <>
     <RowWithShadow>
       <HeaderTitle>Grupa</HeaderTitle>
       <Space />
       <Name>{user.name}</Name>
-      <UserIcon src={UserImg} onClick={() => {
-        auth.logout()
-        history.push('/')
-      }} />
+      <UserIcon
+        src={UserImg}
+        onClick={() => {
+          Swal.fire({
+            title: 'Do you want to Logout?',
+            icon: 'question',
+            showCancelButton: true
+          }).then(result => {
+            if (result.value) {
+              auth.logout();
+              history.push('/');
+            }
+          });
+        }}
+      />
     </RowWithShadow>
   </>
 ));
 
 const Page = ({ children, history, user }) => {
   return (
-  <Outer>
-    <Inner>
-      {user.uid ? <Header history={history} /> : null}
-      {children}
-    </Inner>
-  </Outer>
-);
-  }
+    <Outer>
+      <Inner>
+        {user.uid ? <Header history={history} /> : null}
+        {children}
+      </Inner>
+    </Outer>
+  );
+};
 export default inject('user')(observer(Page));

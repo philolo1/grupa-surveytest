@@ -11,16 +11,16 @@ import GlobalStyle from '../styles/globalStyle';
 import Routes from './Routes';
 import Create from '../mobx/Create';
 
-const user = new User()
-const auth = new Auth(user)
-const survey = new Survey(user)
-const create = new Create(survey)
-const stores = { auth, create, survey, user }
+const user = new User();
+const auth = new Auth(user);
+const survey = new Survey(user);
+const create = new Create(survey);
+const stores = { auth, create, survey, user };
 
 function App() {
   return (
     <Provider {...stores}>
-      <GlobalStyle />
+      {/*<GlobalStyle />*/}
       <Routes />
     </Provider>
   );

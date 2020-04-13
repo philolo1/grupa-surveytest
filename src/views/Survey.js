@@ -88,7 +88,7 @@ const Caption = styled.div`
   margin-right: 15px;
   margin-left: 15px;
 `;
-const WelcomeSurvey = ({ id, history, survey }) => {
+const WelcomeSurvey = ({ mainSurvey, user, id, history, survey }) => {
   return (
     <Page history={history}>
       <BackRow
@@ -107,28 +107,45 @@ const WelcomeSurvey = ({ id, history, survey }) => {
           <Title>{survey.title}</Title>
           <Caption>{survey.desc}</Caption>
           <Box h={65} />
-          <BigButton
-            onClick={() => {
-              history.push(`/survey/${id}/1`);
-            }}
-            text="Start"
-          >
-            Start
-          </BigButton>
-          <Row mr={30} ml={11} mt={20} style={{ flexWrap: 'wrap' }}>
-            <SmallButton
+          {user.answeredIds.indexOf(id) == -1 ? (
+            <BigButton
               onClick={() => {
-                history.push(`/results/${id}`);
+                history.push(`/survey/${id}/1`);
               }}
-              text="Show results"
-            />
-            <SmallButton
-              onClick={() => {
-                alert('close survey');
-                // history.push(`/results/${id}`);
-              }}
-              text="Close survey"
-            />
+              text="Start"
+            >
+              Start
+            </BigButton>
+          ) : null}
+          <Row mr={30} mb={20} ml={11} mt={20} style={{ flexWrap: 'wrap' }}>
+            {user.isAdmin ? (
+              <>
+                <SmallButton
+                  onClick={() => {
+                    history.push(`/results/${id}`);
+                  }}
+                  text="Show results"
+                />
+                <SmallButton
+                  onClick={() => {
+                    mainSurvey.cancel(id);
+                    history.push(`/lists`);
+                  }}
+                  text="Close survey"
+                />
+              </>
+            ) : (
+              <>
+                <Box f1 />
+                <SmallButton
+                  onClick={() => {
+                    history.push(`/results/${id}`);
+                  }}
+                  text="Show results"
+                />
+                <Box f1 />
+              </>
+            )}
           </Row>
         </Box>
       ) : null}
@@ -252,8 +269,8 @@ const AskSurvey = ({ id, page, history, survey, mainSurvey }) => {
   );
 };
 
-export default inject('survey')(
-  observer(({ survey, history }) => {
+export default inject('survey', 'user')(
+  observer(({ survey, history, user }) => {
     const { id, page } = useParams();
     useEffect(() => {
       survey.get(id);
@@ -261,11 +278,19 @@ export default inject('survey')(
 
     const s = survey.currentSurvey;
     if (s !== null && id !== s.id) {
-      return <Page>Loading...</Page>
+      return <Page>Loading...</Page>;
     }
 
     if (page === undefined) {
-      return <WelcomeSurvey survey={s} history={history} id={id} />;
+      return (
+        <WelcomeSurvey
+          mainSurvey={survey}
+          user={user}
+          survey={s}
+          history={history}
+          id={id}
+        />
+      );
     } else if (page === 'finish') {
       return <FinishSurvey survey={s} history={history} id={id} />;
     } else {

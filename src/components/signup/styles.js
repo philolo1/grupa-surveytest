@@ -76,7 +76,7 @@ export const Field = styled.div`
     border: 0;
     outline: none;
     border-bottom: 1px solid rgb(216, 216, 216);
-    font-size: 16px;
+    font-size: 18px;
     color: rgb(64, 64, 64);
     font-weight: 500;
     padding-left: 15px;
@@ -144,6 +144,7 @@ export const Space = styled.div`
 `;
 
 export const Footer = styled.div`
+  background: white;
   align-items: center;
   border-top: 1px rgb(242, 242, 242) solid;
   bottom: 0;
@@ -152,13 +153,19 @@ export const Footer = styled.div`
   display: flex;
   flex-direction: row;
   font-family: SFProDisplay-Bold;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   height: 60px;
   justify-content: space-between;
   padding: 0 15px;
-  position: absolute;
-  width: 100%;
+  position: fixed;
+  bottom: 0;
+  right: auto;
+  width: 400px;
+
+  @media (max-width: 400px) {
+    width: 100%;
+  }
 `;
 
 export const Modal = styled.div`

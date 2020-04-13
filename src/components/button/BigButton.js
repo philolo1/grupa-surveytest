@@ -19,6 +19,9 @@ const BigButtonStyled = styled.div`
   :active {
     text-decoration: none;
   }
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export default ({ onClick, text, props }) => (

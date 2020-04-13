@@ -1,6 +1,7 @@
-import React from 'react';
-import { useFormik } from 'formik';
 import { inject } from 'mobx-react';
+import { useFormik } from 'formik';
+import React from 'react';
+import Swal from 'sweetalert2';
 import * as Yup from 'yup';
 
 import {
@@ -14,6 +15,7 @@ import {
   Title
 } from '../components/signup/styles';
 import Page from '../components/Page';
+import errorAlert from '../tools/errorAlert';
 
 const SignupPage = ({ auth, history }) => {
   const formik = useFormik({
@@ -27,10 +29,10 @@ const SignupPage = ({ auth, history }) => {
       name: Yup.string().required('Required'),
       email: Yup.string()
         .email('Invalid email address')
-        .required('Required'),
+        .required('Email is required'),
       password: Yup.string()
-        .min(6, 'Too Short')
-        .required('Required'),
+        .min(6, 'Password is too Short')
+        .required('Password is required'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null])
         .required('Password confirm is required')
@@ -39,8 +41,7 @@ const SignupPage = ({ auth, history }) => {
       auth
         .signup(values.email, values.password, values.name)
         .catch(err => {
-          //handle err
-          console.log('signup page error:', err);
+          errorAlert(`${err}`);
         })
         .then(e => {
           history.push('/');
@@ -48,22 +49,16 @@ const SignupPage = ({ auth, history }) => {
     }
   });
 
-  const handleClick = async () => {
-    const values = formik.values;
-    const schema = Yup.object({
-      name: Yup.string().required('Required'),
-      email: Yup.string()
-        .email('Invalid email address')
-        .required('Required'),
-      password: Yup.string()
-        .min(6, 'Too Short')
-        .required('Required'),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null])
-        .required('Password confirm is required')
+  const handleClick = () => {
+    formik.validateForm().then(res => {
+      if (Object.values(res).length > 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          html: Object.values(res).join('<br />')
+        });
+      }
     });
-    const valid = await schema.isValid(values);
-    if (!valid) alert(JSON.stringify(formik.errors));
   };
 
   return (

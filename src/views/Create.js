@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import { inject, observer } from 'mobx-react';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import styled from 'styled-components';
+
+import { inject, observer } from 'mobx-react';
+import { useFormik } from 'formik';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 import * as Yup from 'yup';
 import _ from 'lodash';
+import styled from 'styled-components';
 
-import AddButton from '../components/button/AddButton';
-import BackRow from '../components/BackRow';
-import EmojiField from '../components/field/EmojiField';
-import Page from '../components/Page';
 import {
   Answers,
   TitleLeft,
@@ -21,6 +19,30 @@ import {
   Button,
   Questions
 } from '../components/signup/styles';
+import { Box } from '../components/Box';
+import AddButton from '../components/button/AddButton';
+import BackRow from '../components/BackRow';
+import EmojiField from '../components/field/EmojiField';
+import Page from '../components/Page';
+
+const NextButton = styled.div`
+  opacity: ${props => (props.isDiabled ? '0.5' : '1')};
+  background: #22b394;
+  font-size: 16px;
+  line-height: 16px;
+  color: white;
+  font-weight: bold;
+  background: #22b394;
+  border-radius: 25px;
+  height: 40px;
+  width: 93px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover {
+    cursor: pointer;
+  }
+`;
 
 const MyField = styled(Field)`
   label {
@@ -30,10 +52,14 @@ const MyField = styled(Field)`
   textarea,
   .field {
     width: auto;
+    color: rgb(64, 64, 64);
+    font-weight: 500;
+    font-size: 16px;
   }
   textarea {
     height: 100px;
     padding: 10px 15px;
+    font-size: 16px;
   }
 `;
 
@@ -70,21 +96,22 @@ const Informations = ({ init, history, onValidate }) => {
     }
   });
 
-  const handleClick = async () => {
-    const values = formik.values;
-    const schema = Yup.object({
-      title: Yup.string().required('Required'),
-      desc: Yup.string().required('Required'),
-      icon: Yup.string().required('Required'),
-      expiresAt: Yup.date().required('Required')
+  const handleClick = () => {
+    formik.validateForm().then(res => {
+      if (Object.values(res).length > 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          html: Object.values(res).join('<br />')
+        });
+      } else {
+        onValidate(formik.values);
+      }
     });
-    const valid = await schema.isValid(values);
-    if (!valid) alert(JSON.stringify(formik.errors));
   };
-
   return (
     <>
-      <BackRow onClick={() => history.push('/list')} text='Back to Surveys' />
+      <BackRow onClick={() => history.push('/list')} text="Back to Surveys" />
       <MyRowTitle>
         <TitleLeft>Create Survey</TitleLeft>
       </MyRowTitle>
@@ -138,16 +165,18 @@ const Informations = ({ init, history, onValidate }) => {
               value={formik.values.expiresAt}
             />
           </MyField>
+          <Box h={300} />
         </Col>
         <Footer>
           <div>1/2</div>
-          <SmallButton
-            disabled={!formik.isValid || formik.values.title === ''}
-            onClick={() => handleClick()}
-            type="submit"
+          <NextButton
+            isDiabled={!formik.isValid || formik.values.title === ''}
+            onClick={() => {
+              handleClick();
+            }}
           >
             Next
-          </SmallButton>
+          </NextButton>
         </Footer>
       </form>
     </>
@@ -178,8 +207,8 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
   };
 
   const handleReturnButtonPushed = () => {
-    handleBackToQuestions()
-  }
+    handleBackToQuestions();
+  };
 
   const changeAnswers = (i, v) => {
     const a = JSON.parse(JSON.stringify(answers));
@@ -189,12 +218,12 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
   };
 
   const formatedAnswers = () => {
-    return _.uniq(_.pull(answers.slice(), '', undefined))
-  }
+    return _.uniq(_.pull(answers.slice(), '', undefined));
+  };
 
   return (
     <>
-      <BackRow onClick={handleReturnButtonPushed} text='Back to questions' />
+      <BackRow onClick={handleReturnButtonPushed} text="Back to questions" />
       <MyRowTitle>
         <TitleLeft>Add question</TitleLeft>
       </MyRowTitle>
@@ -227,9 +256,7 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
       </Col>
       <Footer style={{ justifyContent: 'center' }}>
         <Button
-          disabled={
-            (formatedAnswers().length < 2 ) || question === ''
-          }
+          disabled={formatedAnswers().length < 2 || question === ''}
           onClick={() => handleSaveQuestion()}
           type="submit"
         >
@@ -251,7 +278,7 @@ const QuestionsView = inject('create')(
           <AddQuestion handleBackToQuestions={() => setAdding(false)} />
         ) : (
           <>
-            <BackRow onClick={handleBackToSurvey} text='Back to Step 1' />
+            <BackRow onClick={handleBackToSurvey} text="Back to Step 1" />
             <MyRowTitle style={{ justifyContent: 'space-between' }}>
               <TitleLeft>Questions</TitleLeft>
               <AddButton onClick={() => setAdding(true)} />
@@ -268,7 +295,15 @@ const QuestionsView = inject('create')(
                 }}
               >
                 <div>Start by creating questions</div>
-                <div onClick={() => setAdding(true)} style={{ color: 'rgb(34, 179, 148)', cursor: 'pointer' }}>
+                <div
+                  onClick={() => setAdding(true)}
+                  style={{
+                    marginTop: 5,
+                    color: 'rgb(34,179,148)',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }}
+                >
                   Add first question
                 </div>
               </Col>
