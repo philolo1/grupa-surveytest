@@ -11,11 +11,12 @@ import TitleAndDescription from '../views/TitleAndDescription';
 import Questions from '../views/Questions';
 import AddQuestion from '../views/AddQuestion';
 import { observer, inject } from 'mobx-react';
+import history from '../tools/History';
 
 export default inject('user')(
   observer(({ user }) => {
     return (
-      <Router history={window.myHistory}>
+      <Router history={history}>
         <Switch>
           {user.uid ? (
             <>

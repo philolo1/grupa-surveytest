@@ -32,23 +32,27 @@ const RowWithShadow = styled(MyRow)`
   box-shadow: 0px 4px 2px -2px rgba(0, 0, 0, 0.13);
 `;
 
-const Header = inject('auth')(({ auth }) => (
+const Header = inject('auth')(({ auth, history }) => (
   <>
     <RowWithShadow>
       <HeaderTitle>Grupa</HeaderTitle>
       <Space />
-      <UserIcon src={UserImg} onClick={() => auth.logout()} />
+      <UserIcon src={UserImg} onClick={() => {
+        auth.logout()
+        history.push('/')
+      }} />
     </RowWithShadow>
   </>
 ));
 
-const Page = ({ children, user }) => (
+const Page = ({ children, history, user }) => {
+  return (
   <Outer>
     <Inner>
-      {user.uid ? <Header /> : null}
+      {user.uid ? <Header history={history} /> : null}
       {children}
     </Inner>
   </Outer>
 );
-
+  }
 export default inject('user')(observer(Page));

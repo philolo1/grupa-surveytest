@@ -315,7 +315,7 @@ class Create extends React.Component {
 
   render() {
     return (
-      <Page>
+      <>
         {this.state.page === 1 ? (
           <Informations
             init={this.props.create.survey}
@@ -329,7 +329,7 @@ class Create extends React.Component {
             onValidate={this.handleQuestionSave}
           />
         )}
-      </Page>
+      </>
     );
   }
 }

@@ -35,14 +35,14 @@ const CreateButton = () => (
 );
 
 export default inject('survey', 'user')(
-  observer(({ survey, user }) => {
+  observer(({ history, survey, user }) => {
     useEffect(() => {
       survey.load();
     }, [survey]);
 
     let isAdmin = user.isAdmin;
     return (
-      <Page>
+      <Page history={history}>
         <MyRow>
           <CategoryTitle>Surveys</CategoryTitle>
           <Space />

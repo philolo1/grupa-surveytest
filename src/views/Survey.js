@@ -92,7 +92,7 @@ const Caption = styled.div`
 `;
 const WelcomeSurvey = ({ id, history, survey }) => {
   return (
-    <Page>
+    <Page history={history}>
       <BackRow
         onClick={() => {
           history.goBack();
@@ -140,7 +140,7 @@ const WelcomeSurvey = ({ id, history, survey }) => {
 
 const FinishSurvey = ({ id, history, survey }) => {
   return (
-    <Page>
+    <Page history={history}>
       {survey !== null ? (
         <Box f1>
           <Box f1 />
@@ -201,7 +201,7 @@ const AskSurvey = ({ id, page, history, survey, mainSurvey }) => {
   const question = survey.questions[page - 1];
 
   return (
-    <Page>
+    <Page history={history}>
       <QuestionTitle>{question.question}</QuestionTitle>
       {question.answers.map(e => (
         <Choice
@@ -262,8 +262,6 @@ export default inject('survey')(
     }, [survey, id]);
 
     const s = survey.currentSurvey;
-    //let linkText
-    let element;
     if (page === undefined) {
       return <WelcomeSurvey survey={s} history={history} id={id} />;
     } else if (page === 'finish') {
@@ -279,17 +277,5 @@ export default inject('survey')(
         />
       );
     }
-
-    return (
-      <div>
-        <div>{`Survey of ${id}, page: ${page}`}</div>
-        <br />
-        {element}
-        <br />
-        <Link to={`/results/${id}`}>Results</Link>
-        <Button onClick={() => survey.get(id)}>Load Survey</Button>
-        {JSON.stringify(s)}
-      </div>
-    );
   })
 );
