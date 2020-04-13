@@ -107,7 +107,7 @@ const WelcomeSurvey = ({ mainSurvey, user, id, history, survey }) => {
           <Title>{survey.title}</Title>
           <Caption>{survey.desc}</Caption>
           <Box h={65} />
-          {user.answeredIds.indexOf(id) == -1 ? (
+          {user.answeredIds.indexOf(id) === -1 ? (
             <BigButton
               onClick={() => {
                 history.push(`/survey/${id}/1`);
