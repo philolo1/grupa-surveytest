@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import styled from 'styled-components';
 import TimeImg from '../../assets/time.svg';
+import { inject, observer } from 'mobx-react';
 
 const ListBox = styled.div`
   padding-top: 25px;
@@ -94,40 +95,33 @@ const DateString = styled.div`
   font-size: 16px;
 `;
 
-export default ({ survey }) => {
-  window.mySurvey = survey;
-
-  const isCompleted = _.sample([true, false]);
-
-  console.log('isCompleted', survey.answers);
-  return (
-    <>
-      <ListBox>
-        <Link to={`/survey/${survey.uid}`} style={{ textDecoration: 'none' }}>
-          <Column>
-            <IconRow>
-              <div style={{ fontSize: 36 }}>{survey.icon}</div>
-              <Space />
-              {isCompleted ? (
-                <CompletedButton>Completed</CompletedButton>
-              ) : (
-                <div />
-              )}
-            </IconRow>
-            <Title>{survey.title}</Title>
-            <SubTitle>{survey.desc}</SubTitle>
-            <Row>
-              <QText>{survey.numberOfQuestions} questions</QText>
-              <Space />
-              <PostIcon src={TimeImg} />
-              <DateString>
-                {new Date(survey.expiresAt).toDateString()}
-              </DateString>
-            </Row>
-          </Column>
-        </Link>
-      </ListBox>
-      <MyBorder />
-    </>
-  );
-};
+export default inject('user')(observer(({ survey, user }) => (
+  <>
+    <ListBox>
+      <Link to={`/survey/${survey.uid}`} style={{ textDecoration: 'none' }}>
+        <Column>
+          <IconRow>
+            <div style={{ fontSize: 36 }}>{survey.icon}</div>
+            <Space />
+            {user.answeredIds.indexOf(survey.uid) !== -1 ? (
+              <CompletedButton>Completed</CompletedButton>
+            ) : (
+              <div />
+            )}
+          </IconRow>
+          <Title>{survey.title}</Title>
+          <SubTitle>{survey.desc}</SubTitle>
+          <Row>
+            <QText>{survey.numberOfQuestions} questions</QText>
+            <Space />
+            <PostIcon src={TimeImg} />
+            <DateString>
+              {new Date(survey.expiresAt).toDateString()}
+            </DateString>
+          </Row>
+        </Column>
+      </Link>
+    </ListBox>
+    <MyBorder />
+  </>
+)));

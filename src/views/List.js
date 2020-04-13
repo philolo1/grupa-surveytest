@@ -58,7 +58,7 @@ export default inject('survey', 'user')(
         {survey.surveys.map((s, i) => (
           <Thumb key={i} survey={s} />
         ))}
-        {survey.maxAttained ? null : <Button onClick={() => survey.loadMore()}>Load More</Button>}
+        {survey.maxAttained || survey.loading ? null : <Button onClick={() => survey.loadMore()}>Load More</Button>}
         {survey.loading ? <div>Loading...</div> : null}
       </Page>
     );
