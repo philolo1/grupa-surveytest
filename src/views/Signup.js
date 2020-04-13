@@ -11,43 +11,56 @@ import {
   InfoText,
   LinkText,
   Logo,
-  Title,
+  Title
 } from '../components/signup/styles';
 import Page from '../components/Page';
 
-const SignupPage = ({ auth }) => {
+const SignupPage = ({ auth, history }) => {
   const formik = useFormik({
     initialValues: {
       name: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      confirmPassword: ''
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(6, 'Too Short').required('Required'),
+      email: Yup.string()
+        .email('Invalid email address')
+        .required('Required'),
+      password: Yup.string()
+        .min(6, 'Too Short')
+        .required('Required'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null])
-        .required('Password confirm is required'),
+        .required('Password confirm is required')
     }),
-    onSubmit: (values) => {
-      auth.signup(values.email, values.password, values.name).catch(err => {
-        //handle err
-        console.log('signup page error:', err)
-      });
-    },
+    onSubmit: values => {
+      auth
+        .signup(values.email, values.password, values.name)
+        .catch(err => {
+          //handle err
+          console.log('signup page error:', err);
+        })
+        .then(e => {
+          history.push('/');
+        });
+    }
   });
 
   const handleClick = async () => {
     const values = formik.values;
     const schema = Yup.object({
       name: Yup.string().required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(6, 'Too Short').required('Required'),
+      email: Yup.string()
+        .email('Invalid email address')
+        .required('Required'),
+      password: Yup.string()
+        .min(6, 'Too Short')
+        .required('Required'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null])
-        .required('Password confirm is required'),
+        .required('Password confirm is required')
     });
     const valid = await schema.isValid(values);
     if (!valid) alert(JSON.stringify(formik.errors));
