@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
+import Swal from 'sweetalert2';
 
 import {
   Button,
@@ -10,7 +11,7 @@ import {
   InfoText,
   LinkText,
   Logo,
-  Title,
+  Title
 } from '../components/signup/styles';
 import Page from '../components/Page';
 import { inject } from 'mobx-react';
@@ -19,28 +20,40 @@ const Login = ({ auth }) => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: '',
+      password: ''
     },
     validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(6, 'Too Short').required('Required'),
+      email: Yup.string()
+        .email('Invalid email address')
+        .required('Email is required'),
+      password: Yup.string()
+        .min(6, 'Too Short')
+        .required('Password is required')
     }),
-    onSubmit: (values) => {
+    onSubmit: values => {
       auth.login(values.email, values.password).catch(err => {
         //handle err
-        alert(`Error happened: ${err}`)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `${err}`
+        });
       });
-    },
+    }
   });
 
-  const handleClick = async () => {
-    const values = formik.values;
-    const schema = Yup.object({
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(6, 'Too Short').required('Required'),
+  window.formik = formik;
+
+  const handleClick = () => {
+    formik.validateForm().then(res => {
+      if (Object.values(res).length > 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          html: Object.values(res).join('<br />')
+        });
+      }
     });
-    const valid = await schema.isValid(values);
-    if (!valid) alert(JSON.stringify(formik.errors));
   };
 
   return (

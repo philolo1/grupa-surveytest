@@ -45,7 +45,6 @@ export const CategoryTitle = styled(HeaderTitle)`
   padding-bottom: 24px;
 `;
 
-
 export const TitleLeft = styled(Title)`
   font-size: 36px;
   margin-bottom: 0;
@@ -78,7 +77,8 @@ export const Field = styled.div`
     outline: none;
     border-bottom: 1px solid rgb(216, 216, 216);
     font-size: 16px;
-    color: rgb(145, 145, 145);
+    color: rgb(64, 64, 64);
+    font-weight: 500;
     padding-left: 15px;
   }
 `;
@@ -98,13 +98,16 @@ export const Button = styled.button`
   font-weight: bold;
   text-align: center;
   outline: none;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export const SmallButton = styled(Button)`
   color: white;
   height: 40px;
   width: 93px;
-`
+`;
 
 export const InfoText = styled.div`
   color: rgb(64, 64, 64);
@@ -156,7 +159,7 @@ export const Footer = styled.div`
   padding: 0 15px;
   position: absolute;
   width: 100%;
-`
+`;
 
 export const Modal = styled.div`
   height: 100%;
@@ -168,18 +171,18 @@ export const Modal = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.4);
-`
+`;
 
 export const Questions = styled.div`
   color: rgb(64, 64, 64);
   font-size: 20px;
   font-weight: 800;
   margin-bottom: 5px;
-`
+`;
 
 export const Answers = styled.div`
   color: rgb(64, 64, 64);
   font-size: 16px;
   line-height: 30px;
   margin-bottom: 5px;
-`
+`;
