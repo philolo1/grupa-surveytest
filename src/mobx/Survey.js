@@ -27,11 +27,20 @@ export default class Survey {
     firestore().collection('users').doc(this.userStore.uid).update({answeredIds: a})
   }
 
+  cancel (surveyId) {
+    try {
+      return firestore().collection('surveys').doc(surveyId).update({ isCancelled: true })
+    } catch (e) {
+      console.error('Error happened while updating the survey', e)
+    }
+  }
+
   create (survey, questions) {
     // survey must contains those fields: desc, expiresAt as seconds since unix, icon, title and numberOfQuestions
     try {
+      survey.isCancelled = false
       if (survey.expiresAt)
-        survey.expiresAt = new firestore.Timestamp(survey.expiresAt || 0, 0)
+        survey.expiresAt = new firestore.Timestamp(survey.expiresAt.getTime() / 1000 || 0, 0)
       return firestore().collection('surveys').add(survey).then(docRef => {
         questions.forEach((q,i) => {
           firestore().collection('surveys').doc(docRef.id).collection('questions').add(Object.assign(q, { idx: i+1 }))
@@ -82,7 +91,7 @@ export default class Survey {
     }
 
     this.loading = true
-    firestore().collection('surveys').limit(LOADING_NUMBER).get().then(snap => {
+    firestore().collection('surveys').where('isCancelled', '==', false).where('expiresAt', '>', firestore.Timestamp.now()).limit(LOADING_NUMBER).get().then(snap => {
       console.log('load some surveys', snap.size)
       this.loading = false
       snap.forEach(doc => {
