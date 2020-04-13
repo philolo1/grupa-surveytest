@@ -48,13 +48,6 @@ export default inject('survey', 'user')(
           <Space />
           {isAdmin ? <CreateButton /> : null}
         </MyRow>
-        <MyRow>
-          <StatusButton>Active</StatusButton>
-          <StatusButton style={{ backgroundColor: 'white' }}>
-            Closed
-          </StatusButton>
-        </MyRow>
-
         {survey.surveys.map((s, i) => (
           <Thumb key={i} survey={s} />
         ))}
