@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import styled from 'styled-components';
+import TimeImg from '../../assets/time.svg';
 
 const ListBox = styled.div`
   padding-top: 25px;
@@ -39,10 +40,10 @@ const QText = styled.div`
   font-size: 16px;
   font-weight: normal;
 `;
-const PostIcon = styled.div`
-  background-color: gray;
+const PostIcon = styled.img`
   height: 15px;
   width: 15px;
+  margin-top: 2px;
   margin-right: 8px;
   border-radius: 15px;
 `;
@@ -88,12 +89,17 @@ const Space = styled.div`
   flex: 1;
 `;
 
+const DateString = styled.div`
+  color: #acacac;
+  font-size: 16px;
+`;
+
 export default ({ survey }) => {
-  window.mySurvey = survey.currentSurvey;
+  window.mySurvey = survey;
 
   const isCompleted = _.sample([true, false]);
 
-  console.log('isCompleted', Math.random(), isCompleted);
+  console.log('isCompleted', survey.answers);
   return (
     <>
       <ListBox>
@@ -113,8 +119,10 @@ export default ({ survey }) => {
             <Row>
               <QText>{survey.numberOfQuestions} questions</QText>
               <Space />
-              <PostIcon />
-              {new Date(survey.expiresAt).toDateString()}
+              <PostIcon src={TimeImg} />
+              <DateString>
+                {new Date(survey.expiresAt).toDateString()}
+              </DateString>
             </Row>
           </Column>
         </Link>

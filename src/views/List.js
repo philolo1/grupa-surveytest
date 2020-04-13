@@ -4,10 +4,14 @@ import { observer, inject } from 'mobx-react';
 import styled from 'styled-components';
 
 import AddButton from '../components/button/AddButton';
-import { Button, CategoryTitle, MyRow, Space } from '../components/signup/styles';
+import {
+  Button,
+  CategoryTitle,
+  MyRow,
+  Space
+} from '../components/signup/styles';
 import Page from '../components/Page';
 import Thumb from '../components/survey/Thumb';
-
 
 const StatusButton = styled.div`
   display: flex;
@@ -28,12 +32,9 @@ const CreateButton = () => (
   <Link to="/createSurvey" style={{ textDecoration: 'none' }}>
     <AddButton />
   </Link>
-)
+);
 
-export default inject(
-  'survey',
-  'user'
-)(
+export default inject('survey', 'user')(
   observer(({ survey, user }) => {
     useEffect(() => {
       survey.load();
@@ -54,7 +55,9 @@ export default inject(
           </StatusButton>
         </MyRow>
 
-        {survey.surveys.map((s, i) => <Thumb key={i} survey={s} />)}
+        {survey.surveys.map((s, i) => (
+          <Thumb key={i} survey={s} />
+        ))}
         <Button onClick={() => survey.load()}>Load</Button>
         <Button onClick={() => survey.loadMore()}>Load More</Button>
         {survey.loading ? <div>Loading...</div> : null}
