@@ -308,7 +308,7 @@ class Create extends React.Component {
 
   handleQuestionSave = () => {
     const { create, survey } = this.props;
-    survey.create(create.survey, create.question).then(() => {
+    survey.create(create.survey, create.questions).then(() => {
       this.props.history.push('/list');
     });
   };

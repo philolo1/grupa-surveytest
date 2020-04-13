@@ -46,7 +46,7 @@ export default class Survey {
     }
   }
 
-  async create(survey, questions) {
+  create(survey, questions) {
     // survey must contains those fields: desc, expiresAt as seconds since unix, icon, title and numberOfQuestions
     try {
       survey.isCancelled = false;
@@ -59,13 +59,14 @@ export default class Survey {
         .collection('surveys')
         .add(survey)
         .then(docRef => {
-          questions.forEach((q, i) => {
-            firestore()
+          return Promise.all(questions.map((q, i) => {
+            console.log('yeah')
+            return firestore()
               .collection('surveys')
               .doc(docRef.id)
               .collection('questions')
               .add(Object.assign(q, { idx: i + 1 }));
-          });
+          }));
         });
     } catch (e) {
       console.error('Error happened while saving new survey', e);
