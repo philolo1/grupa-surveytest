@@ -13,7 +13,6 @@ const Outer = styled.div`
 `;
 
 const Inner = styled.div`
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   height: 100%;
