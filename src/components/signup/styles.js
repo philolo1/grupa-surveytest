@@ -16,6 +16,7 @@ export const Logo = styled.div`
   font-weight: 900;
   text-align: center;
   margin-bottom: 53px;
+  font-family: 'Work Sans';
 `;
 
 export const Title = styled.div`
@@ -24,6 +25,7 @@ export const Title = styled.div`
   font-size: 26px;
   text-align: center;
   margin-bottom: 24px;
+  font-family: 'Work Sans';
 `;
 
 export const HeaderTitle = styled.div`
@@ -68,6 +70,7 @@ export const Field = styled.div`
     color: rgb(64, 64, 64);
     font-size: 20px;
     font-weight: bold;
+    font-family: 'Work Sans';
   }
 
   input {
