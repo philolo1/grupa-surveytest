@@ -15,7 +15,7 @@ const Title = styled.div`
   display: flex;
   flex: 1;
   color: rgb(64, 64, 64);
-  font-family: WorkSans-ExtraBold;
+  font-family: 'Work Sans';
   font-size: 26px;
   font-weight: 800;
   // height: 30px;
@@ -26,7 +26,6 @@ const SubTitle = styled.div`
   display: flex;
   flex: 1;
   color: rgb(64, 64, 64);
-  font-family: SFProDisplay-Regular;
   font-size: 16px;
   font-weight: normal;
   // height: 19px;
@@ -36,7 +35,6 @@ const QText = styled.div`
   display: flex;
   flex: 1;
   color: rgb(172, 172, 172);
-  font-family: SFProDisplay-Regular;
   font-size: 16px;
   font-weight: normal;
 `;
@@ -56,7 +54,6 @@ const CompletedButton = styled.div`
   height: 26px;
   max-width: 87px;
   color: rgb(255, 255, 255);
-  font-family: SFProDisplay-Regular;
   font-size: 14px;
   font-weight: normal;
   text-align: center;
@@ -94,33 +91,35 @@ const DateString = styled.div`
   font-size: 16px;
 `;
 
-export default inject('user')(observer(({ survey, user }) => (
-  <>
-    <ListBox>
-      <Link to={`/survey/${survey.uid}`} style={{ textDecoration: 'none' }}>
-        <Column>
-          <IconRow>
-            <div style={{ fontSize: 36 }}>{survey.icon}</div>
-            <Space />
-            {user.answeredIds.indexOf(survey.uid) !== -1 ? (
-              <CompletedButton>Completed</CompletedButton>
-            ) : (
-              <div />
-            )}
-          </IconRow>
-          <Title>{survey.title}</Title>
-          <SubTitle>{survey.desc}</SubTitle>
-          <Row>
-            <QText>{survey.numberOfQuestions} questions</QText>
-            <Space />
-            <PostIcon src={TimeImg} />
-            <DateString>
-              {new Date(survey.expiresAt).toDateString()}
-            </DateString>
-          </Row>
-        </Column>
-      </Link>
-    </ListBox>
-    <MyBorder />
-  </>
-)));
+export default inject('user')(
+  observer(({ survey, user }) => (
+    <>
+      <ListBox>
+        <Link to={`/survey/${survey.uid}`} style={{ textDecoration: 'none' }}>
+          <Column>
+            <IconRow>
+              <div style={{ fontSize: 36 }}>{survey.icon}</div>
+              <Space />
+              {user.answeredIds.indexOf(survey.uid) !== -1 ? (
+                <CompletedButton>Completed</CompletedButton>
+              ) : (
+                <div />
+              )}
+            </IconRow>
+            <Title>{survey.title}</Title>
+            <SubTitle>{survey.desc}</SubTitle>
+            <Row>
+              <QText>{survey.numberOfQuestions} questions</QText>
+              <Space />
+              <PostIcon src={TimeImg} />
+              <DateString>
+                {new Date(survey.expiresAt).toDateString()}
+              </DateString>
+            </Row>
+          </Column>
+        </Link>
+      </ListBox>
+      <MyBorder />
+    </>
+  ))
+);
