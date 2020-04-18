@@ -17,7 +17,7 @@ import {
   SmallButton,
   MyRow,
   Button,
-  Questions
+  Questions,
 } from '../components/signup/styles';
 import { Box } from '../components/Box';
 import AddButton from '../components/button/AddButton';
@@ -26,7 +26,7 @@ import EmojiField from '../components/field/EmojiField';
 import Page from '../components/Page';
 
 const NextButton = styled.div`
-  opacity: ${props => (props.isDiabled ? '0.5' : '1')};
+  opacity: ${(props) => (props.isDiabled ? '0.5' : '1')};
   background: #22b394;
   font-size: 16px;
   line-height: 16px;
@@ -83,26 +83,26 @@ const Informations = ({ init, history, onValidate }) => {
       title: init.title || '',
       desc: init.desc || '',
       icon: init.icon || '😃',
-      expiresAt: init.expiresAt || null
+      expiresAt: init.expiresAt || null,
     },
     validationSchema: Yup.object({
       title: Yup.string().required('Required'),
       desc: Yup.string().required('Required'),
       icon: Yup.string().required('Required'),
-      expiresAt: Yup.date().required('Required')
+      expiresAt: Yup.date().required('Required'),
     }),
-    onSubmit: values => {
+    onSubmit: (values) => {
       onValidate(values);
-    }
+    },
   });
 
   const handleClick = () => {
-    formik.validateForm().then(res => {
+    formik.validateForm().then((res) => {
       if (Object.values(res).length > 0) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          html: Object.values(res).join('<br />')
+          html: Object.values(res).join('<br />'),
         });
       } else {
         onValidate(formik.values);
@@ -153,7 +153,7 @@ const Informations = ({ init, history, onValidate }) => {
             <label htmlFor="icon">Icon</label>
             <EmojiField
               selected={formik.values.icon}
-              onChange={v => formik.setFieldValue('icon', v)}
+              onChange={(v) => formik.setFieldValue('icon', v)}
             />
           </MyField>
         </Col>
@@ -161,7 +161,7 @@ const Informations = ({ init, history, onValidate }) => {
           <MyField>
             <label htmlFor="expiresAt">Expire date</label>
             <DayPickerInput
-              onDayChange={day => formik.setFieldValue('expiresAt', day)}
+              onDayChange={(day) => formik.setFieldValue('expiresAt', day)}
               value={formik.values.expiresAt}
             />
           </MyField>
@@ -187,7 +187,7 @@ const Question = ({ question }) => (
   <Col
     style={{
       borderBottom: '1px solid rgb(231, 231, 231)',
-      paddingBottom: '15px'
+      paddingBottom: '15px',
     }}
   >
     <Questions>{question.question}</Questions>
@@ -233,20 +233,20 @@ const AddQuestion = inject('create')(({ create, handleBackToQuestions }) => {
           <textarea
             name="question"
             value={question}
-            onChange={e => setQuestion(e.target.value)}
+            onChange={(e) => setQuestion(e.target.value)}
           />
         </MyField>
       </Col>
       <Col>
         <MyField>
           <label htmlFor="answers">Multiple choice</label>
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
             <input
               style={{
                 display:
-                  i < 2 || answers[i - 1] !== undefined ? 'block' : 'none'
+                  i < 2 || answers[i - 1] !== undefined ? 'block' : 'none',
               }}
-              onChange={e => changeAnswers(i, e.target.value)}
+              onChange={(e) => changeAnswers(i, e.target.value)}
               name={i}
               key={i}
               value={answers[i] || ''}
@@ -291,17 +291,26 @@ const QuestionsView = inject('create')(
                   alignItems: 'center',
                   fontSize: '20px',
                   justifyContent: 'center',
-                  flexGrow: 1
+                  flexGrow: 1,
                 }}
               >
-                <div>Start by creating questions</div>
+                <div
+                  style={{
+                    color: 'rgb(172, 172, 172)',
+                    fontSize: 20,
+                    fontWeight: 'normal',
+                    textAlign: 'center',
+                  }}
+                >
+                  Start by creating questions
+                </div>
                 <div
                   onClick={() => setAdding(true)}
                   style={{
                     marginTop: 5,
                     color: 'rgb(34,179,148)',
                     cursor: 'pointer',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
                   }}
                 >
                   Add first question
@@ -331,12 +340,12 @@ class Create extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      page: 1
+      page: 1,
     };
     props.create.createNew();
   }
 
-  handleInformationSave = v => {
+  handleInformationSave = (v) => {
     this.props.create.setInfos(v.title, v.desc, v.icon, v.expiresAt);
     this.setState({ page: 2 });
   };
