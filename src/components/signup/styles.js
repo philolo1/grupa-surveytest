@@ -20,7 +20,7 @@ export const Logo = styled.div`
 `;
 
 export const Title = styled.div`
-  font-weight: 800;
+  font-weight: 900;
   color: rgb(64, 64, 64);
   font-size: 26px;
   text-align: center;
@@ -81,7 +81,7 @@ export const Field = styled.div`
     border-bottom: 1px solid rgb(216, 216, 216);
     font-size: 18px;
     color: rgb(64, 64, 64);
-    font-weight: 500;
+    font-weight: normal;
     padding-left: 15px;
   }
 `;
@@ -185,7 +185,8 @@ export const Modal = styled.div`
 export const Questions = styled.div`
   color: rgb(64, 64, 64);
   font-size: 20px;
-  font-weight: 800;
+  font-weight: bold;
+  font-family: 'Work Sans';
   margin-bottom: 5px;
 `;
 

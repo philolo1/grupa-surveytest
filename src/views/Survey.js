@@ -35,7 +35,7 @@ const BottomRow = styled(Row)`
 `;
 
 const NextButton = styled.div`
-  opacity: ${props => (props.isDiabled ? '0.5' : '1')};
+  opacity: ${(props) => (props.isDiabled ? '0.5' : '1')};
   background: #22b394;
   font-size: 16px;
   line-height: 16px;
@@ -63,6 +63,7 @@ const Title = styled.div`
   color: rgb(64, 64, 64);
   font-size: 36px;
   font-weight: 900;
+  font-family: 'Work Sans';
   text-align: center;
   margin-right: 15px;
   margin-left: 15px;
@@ -76,6 +77,7 @@ const QuestionTitle = styled.div`
   padding-left: 15px;
   margin-bottom: 20px;
   padding-top: 26px;
+  font-family: 'Work Sans';
 `;
 
 const Caption = styled.div`
@@ -218,7 +220,7 @@ const AskSurvey = ({ id, page, history, survey, mainSurvey }) => {
   return (
     <Page history={history}>
       <QuestionTitle>{question.question}</QuestionTitle>
-      {question.answers.map(e => (
+      {question.answers.map((e) => (
         <Choice
           isSelected={e === answer}
           onClick={() => {
@@ -242,18 +244,18 @@ const AskSurvey = ({ id, page, history, survey, mainSurvey }) => {
               : () => {
                   if (page < survey.questions.length) {
                     history.push(`/survey/${id}/${parseInt(page) + 1}`);
-                    const myAnswers = answers.map(e => e);
+                    const myAnswers = answers.map((e) => e);
                     myAnswers.push({
                       id: question.id,
-                      value: answer
+                      value: answer,
                     });
 
                     setAnswers(myAnswers);
                   } else {
-                    const myAnswers = answers.map(e => e);
+                    const myAnswers = answers.map((e) => e);
                     myAnswers.push({
                       id: question.id,
-                      value: answer
+                      value: answer,
                     });
                     mainSurvey.answer(id, myAnswers);
 
@@ -269,7 +271,10 @@ const AskSurvey = ({ id, page, history, survey, mainSurvey }) => {
   );
 };
 
-export default inject('survey', 'user')(
+export default inject(
+  'survey',
+  'user'
+)(
   observer(({ survey, history, user }) => {
     const { id, page } = useParams();
     useEffect(() => {
