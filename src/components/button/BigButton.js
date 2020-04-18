@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const BigButtonStyled = styled.div`
   background: #22b394;
   border-radius: 30px;
-  font-family: SFProDisplay-Bold;
   font-size: 20px;
   line-height: 60px;
   color: white;

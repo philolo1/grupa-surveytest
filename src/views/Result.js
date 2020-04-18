@@ -8,7 +8,7 @@ import Page from '../components/Page';
 import BackRow from '../components/BackRow';
 
 const Thumb = styled.div`
-  width: ${props => props.percentage}%;
+  width: ${(props) => props.percentage}%;
   height: 100%;
   background-color: #23b394;
   font-size: 12px;
@@ -22,9 +22,10 @@ const ThumbText = styled.div`
   left: 10px;
   top: 4px;
   font-size: 12px;
-  color: ${props => (props.percentage < 15 ? 'rgb(64, 64, 64)' : 'white')};
+  color: ${(props) => (props.percentage < 15 ? 'rgb(64, 64, 64)' : 'white')};
   display: flex;
   align-items: center;
+  font-weight: 600;
 `;
 
 const Track = styled.div`
@@ -67,7 +68,7 @@ const ResultQuestion = ({ answers, question, totals }) => {
           style={{
             fontSize: 20,
             fontStyle: 'italic',
-            color: 'color: rgb(64, 64, 64)'
+            color: 'color: rgb(64, 64, 64)',
           }}
         >
           {' '}

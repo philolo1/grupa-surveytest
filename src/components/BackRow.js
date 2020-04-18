@@ -22,6 +22,7 @@ const BackRowText = styled.div`
   flex: 1;
   border: 1px solid rgb(242, 242, 242);
   padding-left: 15px;
+  font-family: 'Work Sans';
 `;
 
 const BackRowStyled = styled.div`
