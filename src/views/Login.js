@@ -1,8 +1,8 @@
-import { inject } from 'mobx-react';
-import { useFormik } from 'formik';
-import React from 'react';
-import Swal from 'sweetalert2';
-import * as Yup from 'yup';
+import { inject } from 'mobx-react'
+import { useFormik } from 'formik'
+import React from 'react'
+import Swal from 'sweetalert2'
+import * as Yup from 'yup'
 
 import {
   Button,
@@ -12,16 +12,16 @@ import {
   InfoText,
   LinkText,
   Logo,
-  Title,
-} from '../components/signup/styles';
-import Page from '../components/Page';
-import errorAlert from '../tools/errorAlert';
+  Title
+} from '../components/signup/styles'
+import Page from '../components/Page'
+import errorAlert from '../tools/errorAlert'
 
 const Login = ({ auth }) => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: '',
+      password: ''
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -29,17 +29,17 @@ const Login = ({ auth }) => {
         .required('Email is required'),
       password: Yup.string()
         .min(6, 'Too Short')
-        .required('Password is required'),
+        .required('Password is required')
     }),
     onSubmit: (values) => {
       auth.login(values.email, values.password).catch((err) => {
-        //handle err
-        errorAlert(`${err}`);
-      });
-    },
-  });
+        // handle err
+        errorAlert(`${err}`)
+      })
+    }
+  })
 
-  window.formik = formik;
+  window.formik = formik
 
   const handleClick = () => {
     formik.validateForm().then((res) => {
@@ -47,46 +47,46 @@ const Login = ({ auth }) => {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          html: Object.values(res).join('<br />'),
-        });
+          html: Object.values(res).join('<br />')
+        })
       }
-    });
-  };
+    })
+  }
 
   return (
     <Page>
-      <div className="animated fadeInUp delay-1s">
+      <div>
         <ErrorToast />
         <Logo>Grupa</Logo>
         <Title>Sign in</Title>
 
         <Form onSubmit={formik.handleSubmit}>
           <Field>
-            <label htmlFor="email">Email</label>
+            <label htmlFor='email'>Email</label>
 
             <input
-              id="email"
-              name="email"
-              type="email"
+              id='email'
+              name='email'
+              type='email'
               onChange={formik.handleChange}
               value={formik.values.email}
-              placeholder="example@site.com"
+              placeholder='example@site.com'
             />
           </Field>
 
           <Field>
-            <label htmlFor="password">Password</label>
+            <label htmlFor='password'>Password</label>
             <input
-              id="password"
-              name="password"
-              type="password"
+              id='password'
+              name='password'
+              type='password'
               onChange={formik.handleChange}
               value={formik.values.password}
-              placeholder="Enter your password"
+              placeholder='Enter your password'
             />
           </Field>
 
-          <Button onClick={() => handleClick()} type="submit">
+          <Button onClick={() => handleClick()} type='submit'>
             Sign in
           </Button>
         </Form>
@@ -96,14 +96,14 @@ const Login = ({ auth }) => {
           style={{
             width: '100%',
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'center'
           }}
         >
-          <LinkText to="/signup">Create account</LinkText>
+          <LinkText to='/signup'>Create account</LinkText>
         </div>
       </div>
     </Page>
-  );
-};
+  )
+}
 
-export default inject('auth')(Login);
+export default inject('auth')(Login)
